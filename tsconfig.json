@@ -1,0 +1,29 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es2022",
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "alwaysStrict": true,
+    "strictNullChecks": true,
+    "strictFunctionTypes": true,
+    "strictPropertyInitialization": true,
+    "forceConsistentCasingInFileNames": true,
+    "noImplicitReturns": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "outDir": "dist",
+    "declaration": true,
+    "paths": {
+      "*": ["./node_modules/*", "./src/types/*"],
+      "@shared/enums": ["./src/shared/enums"],
+      "@shared/services": ["./src/shared/services"],
+      "@shared/types": ["./src/shared/types"]
+    }
+  },
+  "include": ["src/**/*"]
+}
