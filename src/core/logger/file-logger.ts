@@ -1,13 +1,13 @@
 import { mkdirSync, promises } from "fs";
 import { injectable } from "inversify";
 import path from "path";
-import packageJson from "../../../package.json";
+import data from "../../../package.json";
 import { getCurrentTimeStamp } from "../shared/services";
 import { Logger } from "./interfaces/logger";
 
 @injectable()
 export class FileLogger implements Logger {
-  private logsDir = path.join(__dirname, "../..", "logs", packageJson.version);
+  private logsDir = path.join(__dirname, "../../..", "logs", data.version);
 
   async log(message: string): Promise<void> {
     await this.logToFile("log", message);
