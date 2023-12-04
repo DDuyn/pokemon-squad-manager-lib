@@ -1,0 +1,37 @@
+[
+  {
+    "level": "log",
+    "message": "Generated character with archetype: Druid",
+    "timestamp": "2023-12-04T16:17:56.449Z"
+  },
+  {
+    "level": "log",
+    "message": "Generated character with archetype: Sorcerer",
+    "timestamp": "2023-12-04T16:18:04.033Z"
+  },
+  {
+    "level": "log",
+    "message": "Generated character with archetype: Sorcerer",
+    "timestamp": "2023-12-04T16:20:28.026Z"
+  },
+  {
+    "level": "log",
+    "message": "Generated character with archetype: Warrior",
+    "timestamp": "2023-12-04T16:21:03.966Z"
+  },
+  {
+    "level": "log",
+    "message": "Generated character with archetype: Warrior",
+    "timestamp": "2023-12-04T16:27:14.854Z"
+  },
+  {
+    "level": "log",
+    "message": "Generated character with archetype: Warrior",
+    "timestamp": "2023-12-04T16:27:24.765Z"
+  },
+  {
+    "level": "log",
+    "message": "Generated character with archetype: Druid",
+    "timestamp": "2023-12-04T16:32:29.276Z"
+  }
+]

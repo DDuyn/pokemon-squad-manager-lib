@@ -20,9 +20,10 @@
     "declaration": true,
     "paths": {
       "*": ["./node_modules/*", "./src/types/*"],
-      "@shared/enums": ["./src/shared/enums"],
-      "@shared/services": ["./src/shared/services"],
-      "@shared/types": ["./src/shared/types"]
+      "@shared/enums": ["./src/core/shared/enums"],
+      "@shared/services": ["./src/core/shared/services"],
+      "@shared/types": ["./src/core/shared/types"],
+      "@core/*": ["./src/core/*"]
     }
   },
   "include": ["src/**/*"]
