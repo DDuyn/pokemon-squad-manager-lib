@@ -1,4 +1,4 @@
-# diablo-squad-manager-lib
+# pokemon-squad-manager-lib
 
 To install dependencies:
 
