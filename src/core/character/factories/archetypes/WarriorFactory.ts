@@ -1,5 +1,5 @@
 import { injectable } from "inversify";
-import { AttributeCategories } from "../types/Attribute";
+import { AttributeCategories } from "../../types/Attribute";
 import { ArchetypeFactoryGenerator } from "./ArchetypeFactory";
 
 @injectable()

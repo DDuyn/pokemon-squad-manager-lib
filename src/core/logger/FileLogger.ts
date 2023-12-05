@@ -8,7 +8,12 @@ import { Logger } from "./interfaces/Logger";
 
 @injectable()
 export class FileLogger implements Logger {
-  private logsDir = path.join(__dirname, "../../..", "logs", data.version);
+  private logsDir = path.join(
+    import.meta.dir,
+    "../../..",
+    "logs",
+    data.version
+  );
 
   async info(log: Log): Promise<void> {
     await this.logToFile("info", log);

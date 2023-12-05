@@ -1,0 +1,20 @@
+{
+  "name": "Charmander",
+  "types": {
+    "primary": "Fire",
+    "secondary": null
+  },
+  "baseStats": {
+    "health": 39,
+    "attack": 52,
+    "defense": 43,
+    "specialAttack": 60,
+    "specialDefense": 50,
+    "speed": 65
+  },
+  "abilities": ["Blaze", "Solar Power"],
+  "genderRatio": 87,
+  "growthRate": "Medium Slow",
+  "catchRate": 45,
+  "eggCycles": 20
+}

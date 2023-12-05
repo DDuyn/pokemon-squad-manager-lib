@@ -1,6 +1,6 @@
 import "reflect-metadata";
-import { generateCharacter } from "./services/GenerateCharacter";
+import { generatePokemon } from "./services/GeneratePokemon";
 
-const a = generateCharacter();
+const b = await generatePokemon();
 
-console.log(a.info);
+console.log(b);

@@ -1,0 +1,20 @@
+{
+  "name": "Bulbasaur",
+  "types": {
+    "primary": "Grass",
+    "secondary": "Poison"
+  },
+  "baseStats": {
+    "health": 45,
+    "attack": 49,
+    "defense": 49,
+    "specialAttack": 65,
+    "specialDefense": 65,
+    "speed": 45
+  },
+  "abilities": ["Overgrow", "Chlorophyll"],
+  "genderRatio": 87,
+  "growthRate": "Medium Slow",
+  "catchRate": 45,
+  "eggCycles": 20
+}

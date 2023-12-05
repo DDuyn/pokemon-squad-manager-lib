@@ -1,13 +1,13 @@
 import { getRandomNumber } from "@shared/services";
 import { injectable } from "inversify";
-import { ArchetypeFactory } from "../interfaces/ArchetypeFactory";
-import { AttributeCategories } from "../types/Attribute";
+import { ArchetypeFactory } from "../../interfaces/ArchetypeFactory";
+import { AttributeCategories } from "../../types/Attribute";
 import {
   CharacterAttributes,
   CombatAttributes,
   PrimaryAttributes,
   UtilityAttributes,
-} from "../types/CharacterAttributes";
+} from "../../types/CharacterAttributes";
 
 @injectable()
 export abstract class ArchetypeFactoryGenerator implements ArchetypeFactory {
@@ -18,12 +18,11 @@ export abstract class ArchetypeFactoryGenerator implements ArchetypeFactory {
   }
 
   protected generateAttributes(): CharacterAttributes {
+    const archetypeAttributes = this.generateArchetypeAttributes();
     return {
       utility: this.generateUtilityAttributes(),
-      primary:
-        this.generateArchetypeAttributes().primary || ({} as PrimaryAttributes),
-      combat:
-        this.generateArchetypeAttributes().combat || ({} as CombatAttributes),
+      primary: archetypeAttributes.primary || ({} as PrimaryAttributes),
+      combat: archetypeAttributes.combat || ({} as CombatAttributes),
     };
   }
 
@@ -40,6 +39,7 @@ export abstract class ArchetypeFactoryGenerator implements ArchetypeFactory {
       this.attributeRanges.primary.vitality.min,
       this.attributeRanges.primary.vitality.max
     );
+
     return {
       primary: {
         strength: getRandomNumber(
