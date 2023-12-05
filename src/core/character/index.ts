@@ -1,2 +1,2 @@
-export { Character } from "./character";
-export { CharacterFactory } from "./character-factory";
+export { Character } from "./Character";
+export { CharacterFactory } from "./factories/CharacterFactory";

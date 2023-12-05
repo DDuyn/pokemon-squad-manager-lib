@@ -1,5 +1,7 @@
+import { Log } from "./LogData";
+
 export interface Logger {
-  log: (message: string) => Promise<void>;
-  error: (message: string) => Promise<void>;
-  warn: (message: string) => Promise<void>;
+  info: (log: Log) => Promise<void>;
+  error: (log: Log) => Promise<void>;
+  warn: (log: Log) => Promise<void>;
 }

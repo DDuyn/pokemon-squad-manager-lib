@@ -3,22 +3,23 @@ import { injectable } from "inversify";
 import path from "path";
 import data from "../../../package.json";
 import { getCurrentTimeStamp } from "../shared/services";
-import { Logger } from "./interfaces/logger";
+import { Log, LogInfo } from "./interfaces/LogData";
+import { Logger } from "./interfaces/Logger";
 
 @injectable()
 export class FileLogger implements Logger {
   private logsDir = path.join(__dirname, "../../..", "logs", data.version);
 
-  async log(message: string): Promise<void> {
-    await this.logToFile("log", message);
+  async info(log: Log): Promise<void> {
+    await this.logToFile("info", log);
   }
 
-  async error(message: string): Promise<void> {
-    await this.logToFile("error", message);
+  async error(log: Log): Promise<void> {
+    await this.logToFile("error", log);
   }
 
-  async warn(message: string): Promise<void> {
-    await this.logToFile("warn", message);
+  async warn(log: Log): Promise<void> {
+    await this.logToFile("warn", log);
   }
 
   private getLogFileName(): string {
@@ -37,19 +38,24 @@ export class FileLogger implements Logger {
     }
   }
 
-  private async logToFile(level: string, message: string): Promise<void> {
+  private async logToFile(level: string, log: Log): Promise<void> {
     await this.createLogsDir();
     const filePath = this.getLogFilePath();
 
     const existingData = await promises
       .readFile(filePath, "utf-8")
       .catch(() => "");
-    const jsonData = existingData ? JSON.parse(existingData) : [];
+    const jsonData: LogInfo[] = existingData ? JSON.parse(existingData) : [];
 
-    const newData = {
+    const { message, method, data } = log;
+
+    const newData: LogInfo = {
+      id: crypto.randomUUID(),
       level,
       message,
+      method,
       timestamp: new Date().toISOString(),
+      data,
     };
 
     jsonData.push(newData);

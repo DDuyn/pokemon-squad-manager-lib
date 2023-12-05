@@ -4,7 +4,7 @@
   "version": "0.0.1",
   "scripts": {
     "start": "bun run --watch src/index.ts",
-    "unit-test": "bun test test/unit/core/**/*.test.ts"
+    "integration-test": "bun test test/integration/**/**/*.test.ts"
   },
   "type": "module",
   "devDependencies": {

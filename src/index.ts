@@ -1,3 +1,6 @@
-import { generateCharacter } from "./services/generate-character";
+import "reflect-metadata";
+import { generateCharacter } from "./services/GenerateCharacter";
 
-generateCharacter();
+const a = generateCharacter();
+
+console.log(a.info);
