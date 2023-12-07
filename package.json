@@ -1,5 +1,5 @@
 {
-  "name": "pokemon-squad-lib",
+  "name": "pokemon-squad-manager-lib",
   "module": "src/index.ts",
   "version": "0.0.3",
   "scripts": {

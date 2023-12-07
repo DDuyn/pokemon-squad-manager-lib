@@ -1,4 +1,4 @@
-export { getCurrentTimeStamp } from "./get-current-timestamp";
-export { getRandomNumber } from "./get-random-number";
-export { getRandomToList } from "./get-random-to-list";
+export { getCurrentTimeStamp } from "./GetCurrentTimestamp";
+export { getRandomNumber } from "./GetRandomNumber";
+export { getRandomToList } from "./GetRandomToList";
 export { randomizeEnumerator } from "./randomize-enumerator";

@@ -1,15 +1,32 @@
 import { PokemonGenerator } from "@core/pokemon/PokemonGenerator";
-import { PokemonMapper } from "@core/pokemon/mappers/PokemonMapper";
+import { PokemonJsonMapper } from "@core/pokemon/mappers/PokemonJsonMapper";
+import { JsonReader } from "@core/shared/services/reader/JsonReader";
 import { Container } from "inversify";
 import "reflect-metadata";
-import { FileLogger } from "../core/logger/FileLogger";
-import { Logger } from "../core/logger/interfaces/Logger";
+
+import { FileLogger } from "@core/logger/FileLogger";
+import { Logger } from "@core/logger/interfaces/Logger";
+import { PokemonMapper } from "@core/pokemon/mappers/PokemonMapper";
+import { PokemonJson } from "@core/pokemon/types/Pokemon";
+import { Cache } from "@core/shared/services/cache/Cache";
+import { JsonCache } from "@core/shared/services/cache/JsonCache";
+import { Reader } from "@core/shared/services/reader/Reader";
+import { PokemonJsonRepository } from "../core/pokemon/repository/PokemonJsonRepository";
+import { PokemonRepository } from "../core/pokemon/repository/PokemonRepository";
 import { TYPES } from "./Types";
 
+//TODO: Refactor para modularizar la inyección de dependencias
 const container = new Container();
 container.bind<Logger>(TYPES.Logger).to(FileLogger);
 container.bind<PokemonGenerator>(TYPES.PokemonGenerator).to(PokemonGenerator);
-container.bind<PokemonMapper>(TYPES.PokemonMapper).to(PokemonMapper);
+container
+  .bind<PokemonMapper<PokemonJson>>(TYPES.PokemonMapper)
+  .to(PokemonJsonMapper);
+container.bind<Reader>(TYPES.Reader).to(JsonReader);
+container
+  .bind<PokemonRepository>(TYPES.PokemonRepository)
+  .to(PokemonJsonRepository);
+container.bind<Cache<PokemonJson>>(TYPES.Cache).to(JsonCache);
 
 /*
 const archetypeFactoryRegistry: ArchetypeFactoryRegistry = {

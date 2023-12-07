@@ -1,22 +1,16 @@
+import { TYPES } from "@config/Types";
 import { Logger } from "@core/logger/interfaces/Logger";
-import { getRandomToList } from "@shared/services";
-import fs from "fs";
+import { getRandomToList } from "@core/shared/services";
 import { inject, injectable } from "inversify";
-import path from "path";
-import { TYPES } from "../../config/Types";
-import { PokemonMapper } from "./mappers/PokemonMapper";
-import { Pokemon, PokemonJson } from "./types/Pokemon";
+import { PokemonRepository } from "./repository/PokemonRepository";
+import { Pokemon } from "./types/Pokemon";
 
 @injectable()
 export class PokemonGenerator {
-  private readonly pokemonDataDir = path.resolve(
-    import.meta.dir,
-    "../../data/pokemons"
-  );
-
   constructor(
     @inject(TYPES.Logger) private readonly logger: Logger,
-    @inject(TYPES.PokemonMapper) private readonly mapper: PokemonMapper
+    @inject(TYPES.PokemonRepository)
+    private readonly repository: PokemonRepository
   ) {}
 
   async generate(): Promise<Pokemon> {
@@ -32,32 +26,12 @@ export class PokemonGenerator {
   }
 
   private async getRandomPokemon(): Promise<Pokemon> {
-    try {
-      const pokemonFiles = fs.readdirSync(this.pokemonDataDir);
-      const randomPokemonFile = getRandomToList(pokemonFiles);
-      const pokemonData = fs.readFileSync(
-        path.join(this.pokemonDataDir, randomPokemonFile),
-        "utf-8"
-      );
+    const pokemonsAvailable = await this.repository.getPokemons([
+      "bulbasaur",
+      "charmander",
+    ]);
 
-      const pokemonJSON: PokemonJson = JSON.parse(pokemonData);
-      const pokemon = await this.mapper.toPokemon(pokemonJSON);
-
-      await this.logger.info({
-        message: "Pokemon loaded from file",
-        data: { pokemonJSON },
-        method: "PokemonGenerator.getRandomPokemon",
-      });
-
-      return pokemon;
-    } catch (error) {
-      this.logger.error({
-        message: "Failed to load random Pokemon",
-        data: { error, pokemonDataDir: this.pokemonDataDir },
-        method: "PokemonGenerator.getRandomPokemon",
-      });
-
-      throw error;
-    }
+    const pokemon = getRandomToList(pokemonsAvailable);
+    return pokemon;
   }
 }

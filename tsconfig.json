@@ -20,10 +20,8 @@
     "allowJs": true,
     "types": ["bun-types"],
     "paths": {
-      "@shared/enums": ["./src/core/shared/enums"],
-      "@shared/services": ["./src/core/shared/services"],
-      "@shared/types": ["./src/core/shared/types"],
-      "@core/*": ["./src/core/*"]
+      "@core/*": ["./src/core/*"],
+      "@config/*": ["./src/config/*"]
     }
   }
 }
