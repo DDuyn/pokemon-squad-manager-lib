@@ -1,13 +1,11 @@
-import { PokemonGenerator } from "@core/pokemon/PokemonGenerator";
-import { PokemonJsonMapper } from "@core/pokemon/mappers/PokemonJsonMapper";
+import { PokemonGenerator } from "@core/pokemon/services/PokemonGenerator";
 import { JsonReader } from "@core/shared/services/reader/JsonReader";
 import { Container } from "inversify";
 import "reflect-metadata";
 
 import { FileLogger } from "@core/logger/FileLogger";
 import { Logger } from "@core/logger/interfaces/Logger";
-import { PokemonMapper } from "@core/pokemon/mappers/PokemonMapper";
-import { PokemonJson } from "@core/pokemon/types/Pokemon";
+import { PokemonJson } from "@core/pokemon/types/pokemon/PokemonJson";
 import { Cache } from "@core/shared/services/cache/Cache";
 import { JsonCache } from "@core/shared/services/cache/JsonCache";
 import { Reader } from "@core/shared/services/reader/Reader";
@@ -19,9 +17,7 @@ import { TYPES } from "./Types";
 const container = new Container();
 container.bind<Logger>(TYPES.Logger).to(FileLogger);
 container.bind<PokemonGenerator>(TYPES.PokemonGenerator).to(PokemonGenerator);
-container
-  .bind<PokemonMapper<PokemonJson>>(TYPES.PokemonMapper)
-  .to(PokemonJsonMapper);
+
 container.bind<Reader>(TYPES.Reader).to(JsonReader);
 container
   .bind<PokemonRepository>(TYPES.PokemonRepository)

@@ -14,7 +14,6 @@
   },
   "abilities": ["Overgrow", "Chlorophyll"],
   "genderRatio": 87,
-  "growthRate": "Medium Slow",
   "catchRate": 45,
   "eggCycles": 20
 }

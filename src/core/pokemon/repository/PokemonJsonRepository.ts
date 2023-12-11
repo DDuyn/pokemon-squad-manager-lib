@@ -1,11 +1,13 @@
 import { TYPES } from "@config/Types";
 import { Logger } from "@core/logger/interfaces/Logger";
-import { Pokemon, PokemonJson } from "@core/pokemon/types/Pokemon";
+import { PokemonJson } from "@core/pokemon/types/pokemon/PokemonJson";
+import { getRandomToList } from "@core/shared/services";
 import { Cache } from "@core/shared/services/cache/Cache";
 import { JsonReader } from "@core/shared/services/reader/JsonReader";
 import { inject, injectable } from "inversify";
 import path from "path";
-import { PokemonMapper } from "../mappers/PokemonMapper";
+
+import { Pokemon } from "../Pokemon";
 import { PokemonRepository } from "./PokemonRepository";
 
 @injectable()
@@ -17,8 +19,6 @@ export class PokemonJsonRepository implements PokemonRepository {
 
   constructor(
     @inject(TYPES.Logger) private readonly logger: Logger,
-    @inject(TYPES.PokemonMapper)
-    private readonly mapper: PokemonMapper<PokemonJson>,
     @inject(TYPES.Reader) private readonly jsonReader: JsonReader,
     @inject(TYPES.Cache) private readonly cache: Cache<PokemonJson>
   ) {}
@@ -54,7 +54,18 @@ export class PokemonJsonRepository implements PokemonRepository {
           method: "PokemonJsonRepository.getPokemons",
         });
 
-        const pokemon = await this.mapper.toPokemon(pokemonJSON);
+        const pokemon = Pokemon.generate({
+          name: pokemonJSON.name,
+          types: pokemonJSON.types,
+          abilities: pokemonJSON.abilities,
+          stats: pokemonJSON.baseStats,
+          detail: {
+            eggCycles: pokemonJSON.eggCycles,
+            catchRate: pokemonJSON.catchRate,
+            genderRatio: pokemonJSON.genderRatio,
+          },
+        });
+
         pokemons.push(pokemon);
       } catch (error) {
         this.logger.error({
@@ -66,5 +77,9 @@ export class PokemonJsonRepository implements PokemonRepository {
     }
 
     return pokemons;
+  }
+
+  private setRandomAbility(abilites: string[]): string {
+    return getRandomToList(abilites);
   }
 }

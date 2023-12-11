@@ -2,8 +2,8 @@ import { TYPES } from "@config/Types";
 import { Logger } from "@core/logger/interfaces/Logger";
 import { getRandomToList } from "@core/shared/services";
 import { inject, injectable } from "inversify";
-import { PokemonRepository } from "./repository/PokemonRepository";
-import { Pokemon } from "./types/Pokemon";
+import { Pokemon } from "../Pokemon";
+import { PokemonRepository } from "../repository/PokemonRepository";
 
 @injectable()
 export class PokemonGenerator {

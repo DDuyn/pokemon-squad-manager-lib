@@ -14,7 +14,6 @@
   },
   "abilities": ["Static", "Lightning Rod"],
   "genderRatio": 50,
-  "growthRate": "Medium Fast",
   "catchRate": 190,
   "eggCycles": 10
 }

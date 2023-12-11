@@ -1,7 +1,7 @@
 {
   "name": "pokemon-squad-manager-lib",
   "module": "src/index.ts",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "scripts": {
     "start": "bun run --watch src/index.ts",
     "integration-test": "bun test test/integration/**/**/*.test.ts"

@@ -1,4 +1,4 @@
-import { PokemonGenerator } from "@core/pokemon/PokemonGenerator";
+import { PokemonGenerator } from "@core/pokemon/services/PokemonGenerator";
 import container from "../config/DependencyInjection";
 import { TYPES } from "../config/Types";
 

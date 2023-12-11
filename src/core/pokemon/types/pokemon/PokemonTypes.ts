@@ -19,24 +19,7 @@ export enum PokemonType {
   Fairy = "Fairy",
 }
 
-export type PokemonInfo = {
-  name: string;
-  types: PokemonTypes;
-  catchRate: number;
-  genderRatio: number;
-  growthRate: GrowthRate;
-  eggCycles: number;
-};
-
 export type PokemonTypes = {
   primary: PokemonType;
   secondary: PokemonType | null;
 };
-
-export type GrowthRate =
-  | "Erratic"
-  | "Fast"
-  | "Medium Fast"
-  | "Medium Slow"
-  | "Slow"
-  | "Fluctuating";

@@ -1,4 +1,4 @@
-import { Pokemon } from "../types/Pokemon";
+import { Pokemon } from "../Pokemon";
 
 export interface PokemonRepository {
   //TODO: Refactor. Cambiar tipado del parámetro de entrada por tipo Zone que contendra
