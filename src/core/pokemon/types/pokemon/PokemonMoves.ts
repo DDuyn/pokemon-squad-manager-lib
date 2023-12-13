@@ -1,4 +1,4 @@
-export type PokemonInfoMoves = {
+export type PokemonMovesData = {
   selectedMoves: string[];
   learnableMoves: string[];
 };

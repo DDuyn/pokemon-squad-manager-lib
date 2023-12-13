@@ -1,38 +1,43 @@
-import { RangeNumber } from "@core/shared/types";
+export enum StatKey {
+  health = "health",
+  attack = "attack",
+  defense = "defense",
+  specialAttack = "specialAttack",
+  specialDefense = "specialDefense",
+  speed = "speed",
+}
 
-export type PokemonStats = {
-  baseStats: PokemonBaseStats;
+export type StatKeyWithoutHealth = Exclude<StatKey, StatKey.health>;
+
+export type PokemonStat = {
+  value: number;
+  iv: number;
+  ev: number;
+  nv: number;
+};
+
+export type PokemonStatsBaseData = {
+  health: number;
+  attack: number;
+  defense: number;
+  specialAttack: number;
+  specialDefense: number;
+  speed: number;
+};
+
+export type PokemonStatsData = {
+  baseStats: PokemonStatsBaseData;
+  stats: PokemonStats;
   level: number;
   currentExperience: number;
   nextLevelExperience: number;
 };
 
-export type PokemonBaseStats = {
-  health: Stat;
-  attack: Stat;
-  defense: Stat;
-  specialAttack: Stat;
-  specialDefense: Stat;
-  speed: Stat;
-};
-
-export type Stat = {
-  stat: number;
-  iv: number;
-  ev: number;
-};
-
-export type PokemonTypeStats = {
-  stat: RangeNumber;
-  iv: RangeNumber;
-  ev: RangeNumber;
-};
-
-export type PokemonTypeStatsRanges = {
-  health: PokemonTypeStats;
-  attack: PokemonTypeStats;
-  defense: PokemonTypeStats;
-  specialAttack: PokemonTypeStats;
-  specialDefense: PokemonTypeStats;
-  speed: PokemonTypeStats;
+export type PokemonStats = {
+  health: PokemonStat;
+  attack: PokemonStat;
+  defense: PokemonStat;
+  specialAttack: PokemonStat;
+  specialDefense: PokemonStat;
+  speed: PokemonStat;
 };

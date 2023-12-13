@@ -5,6 +5,8 @@ import "reflect-metadata";
 
 import { FileLogger } from "@core/logger/FileLogger";
 import { Logger } from "@core/logger/interfaces/Logger";
+import { PokemonJsonMapper } from "@core/pokemon/mappers/PokemonJsonMapper";
+import { PokemonMapper } from "@core/pokemon/mappers/PokemonMapper";
 import { PokemonJson } from "@core/pokemon/types/pokemon/PokemonJson";
 import { Cache } from "@core/shared/services/cache/Cache";
 import { JsonCache } from "@core/shared/services/cache/JsonCache";
@@ -17,7 +19,9 @@ import { TYPES } from "./Types";
 const container = new Container();
 container.bind<Logger>(TYPES.Logger).to(FileLogger);
 container.bind<PokemonGenerator>(TYPES.PokemonGenerator).to(PokemonGenerator);
-
+container
+  .bind<PokemonMapper<PokemonJson>>(TYPES.PokemonMapper)
+  .to(PokemonJsonMapper);
 container.bind<Reader>(TYPES.Reader).to(JsonReader);
 container
   .bind<PokemonRepository>(TYPES.PokemonRepository)

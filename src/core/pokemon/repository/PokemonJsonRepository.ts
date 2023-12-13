@@ -7,25 +7,28 @@ import { JsonReader } from "@core/shared/services/reader/JsonReader";
 import { inject, injectable } from "inversify";
 import path from "path";
 
-import { Pokemon } from "../Pokemon";
+import { PokemonMapper } from "../mappers/PokemonMapper";
+import { PokemonBaseData } from "../types/pokemon/PokemonData";
 import { PokemonRepository } from "./PokemonRepository";
 
 @injectable()
 export class PokemonJsonRepository implements PokemonRepository {
   private readonly pokemonDataDir = path.resolve(
     import.meta.dir,
-    "../../../data/pokemons"
+    "../../../data/pokemons" //TODO: Crear variable de entorno para la ruta de los datos
   );
 
   constructor(
     @inject(TYPES.Logger) private readonly logger: Logger,
     @inject(TYPES.Reader) private readonly jsonReader: JsonReader,
-    @inject(TYPES.Cache) private readonly cache: Cache<PokemonJson>
+    @inject(TYPES.Cache) private readonly cache: Cache<PokemonJson>,
+    @inject(TYPES.PokemonMapper)
+    private readonly mapper: PokemonMapper<PokemonJson>
   ) {}
 
   //TODO: Refactor. Cambiar tipado del parámetro de entrada por tipo Zone que contendra
   //TODO: un listado con los nombres de pokemons disponibles en esa zona
-  async getPokemons(zone: string[]): Promise<Pokemon[]> {
+  async getPokemons(zone: string[]): Promise<PokemonBaseData[]> {
     const pokemonFiles = await this.jsonReader.readDirAsync(
       this.pokemonDataDir
     );
@@ -34,7 +37,7 @@ export class PokemonJsonRepository implements PokemonRepository {
       .map((pokemonFile) => pokemonFile.toLowerCase())
       .filter((pokemonFile) => zone.includes(pokemonFile.replace(".json", "")));
 
-    const pokemons: Pokemon[] = [];
+    const pokemons: PokemonBaseData[] = [];
 
     for (const pokemonFile of validPokemonFiles) {
       try {
@@ -54,19 +57,9 @@ export class PokemonJsonRepository implements PokemonRepository {
           method: "PokemonJsonRepository.getPokemons",
         });
 
-        const pokemon = Pokemon.generate({
-          name: pokemonJSON.name,
-          types: pokemonJSON.types,
-          abilities: pokemonJSON.abilities,
-          stats: pokemonJSON.baseStats,
-          detail: {
-            eggCycles: pokemonJSON.eggCycles,
-            catchRate: pokemonJSON.catchRate,
-            genderRatio: pokemonJSON.genderRatio,
-          },
-        });
+        const pokemonBaseData = this.mapper.toPokemonBase(pokemonJSON);
 
-        pokemons.push(pokemon);
+        pokemons.push(pokemonBaseData);
       } catch (error) {
         this.logger.error({
           message: `Failed to read pokemon ${pokemonFile}`,
