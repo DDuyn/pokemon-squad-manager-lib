@@ -2,37 +2,36 @@ import { TYPES } from "@config/Types";
 import { Logger } from "@core/logger/interfaces/Logger";
 import { getRandomNumber, getRandomToList } from "@core/shared/services";
 import { inject, injectable } from "inversify";
-
-import { PokemonRepository } from "../repository/PokemonRepository";
+import { PokemonRepository } from "../../repository/PokemonRepository";
 import {
   PokemonAbilitiesBaseData,
   PokemonAbilitiesData,
-} from "../types/pokemon/PokemonAbilities";
+} from "../../types/pokemon/PokemonAbilities";
 import {
   PokemonBasicBaseData,
   PokemonBasicData,
-} from "../types/pokemon/PokemonBasic";
-import { Pokemon, PokemonBaseData } from "../types/pokemon/PokemonData";
+} from "../../types/pokemon/PokemonBasic";
+import { Pokemon, PokemonBaseData } from "../../types/pokemon/PokemonData";
 import {
   PokemonDetailBaseData,
   PokemonDetailData,
-} from "../types/pokemon/PokemonDetail";
-import { GrowthRates } from "../types/pokemon/PokemonGrowthRates";
-import { Natures } from "../types/pokemon/PokemonNatures";
+} from "../../types/pokemon/PokemonDetail";
+import { GrowthRates } from "../../types/pokemon/PokemonGrowthRates";
+import { Natures } from "../../types/pokemon/PokemonNatures";
 import {
-  PokemonStat,
   PokemonStatsBaseData,
   PokemonStatsData,
-  StatKey,
-} from "../types/pokemon/PokemonStats";
-import { calculateHealthStat, calculateStat } from "./CalculateStat";
+} from "../../types/pokemon/PokemonStats";
+import { StatCalculator } from "../calculator/StatCalculator";
 
 @injectable()
 export class PokemonGenerator {
   constructor(
     @inject(TYPES.Logger) private readonly logger: Logger,
     @inject(TYPES.PokemonRepository)
-    private readonly repository: PokemonRepository
+    private readonly repository: PokemonRepository,
+    @inject(TYPES.StatCalculator)
+    private readonly statCalculator: StatCalculator
   ) {}
 
   async generate(): Promise<Pokemon> {
@@ -44,7 +43,8 @@ export class PokemonGenerator {
     pokemon.moves = pokemonBase.moves;
     pokemon.stats = this.generateStatsData(
       pokemonBase.stats,
-      pokemon.basic.nature
+      pokemon.basic.nature,
+      pokemon.detail.growthRate
     );
     pokemon.ability = this.generateAbilityData(pokemonBase.ability);
 
@@ -98,69 +98,15 @@ export class PokemonGenerator {
 
   private generateStatsData(
     baseStats: PokemonStatsBaseData,
-    nature: Natures
+    nature: Natures,
+    growthRate: GrowthRates
   ): PokemonStatsData {
-    const level = 1; //TODO: El nivel dependerá de un valor aleatorio dado por la zona
-    const stats = this.generateAllStats(baseStats, nature, level);
-
-    return {
+    const level = getRandomNumber(1, 5); //TODO: El nivel dependerá de un valor aleatorio dado por la zona
+    return this.statCalculator.generateStats({
       baseStats,
-      stats,
+      nature,
       level,
-      nextLevelExperience: 100, //TODO: Calcular segun GrowthRate
-      currentExperience: 0, //TODO: Calcular experiencia segun nivel y GrowthRate
-    };
-  }
-
-  private generateAllStats(
-    baseStats: PokemonStatsBaseData,
-    nature: Natures,
-    level: number
-  ): Record<StatKey, PokemonStat> {
-    const stats: Record<StatKey, PokemonStat> = {} as Record<
-      StatKey,
-      PokemonStat
-    >;
-
-    for (const statKey in StatKey) {
-      if (Object.prototype.hasOwnProperty.call(StatKey, statKey)) {
-        const key = statKey as StatKey;
-        stats[key] = this.generateStat(
-          { value: baseStats[key], nature, level },
-          key
-        );
-      }
-    }
-
-    return stats;
-  }
-
-  private generateStat(
-    data: { value: number; nature: Natures; level: number },
-    statKey: StatKey
-  ): PokemonStat {
-    const { value, nature, level } = data;
-
-    const stat: PokemonStat = {
-      value,
-      iv: getRandomNumber(0, 31),
-      ev: 0,
-      nv: getRandomNumber(1, 10),
-    };
-
-    stat.value = this.calculateStatValue(stat, level, nature, statKey);
-
-    return stat;
-  }
-
-  private calculateStatValue(
-    stat: PokemonStat,
-    level: number,
-    nature: Natures,
-    statKey: StatKey
-  ): number {
-    return statKey === StatKey.health
-      ? calculateHealthStat({ stat, level })
-      : calculateStat({ stat, nature, level }, statKey);
+      growthRate,
+    });
   }
 }
