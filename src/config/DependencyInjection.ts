@@ -3,8 +3,9 @@ import { JsonReader } from "@core/shared/services/reader/JsonReader";
 import { Container } from "inversify";
 import "reflect-metadata";
 
-import { FileLogger } from "@core/logger/FileLogger";
-import { Logger } from "@core/logger/interfaces/Logger";
+import { LocationJsonRepository } from "@core/location/repository/LocationJsonRepository";
+import { LocationRepository } from "@core/location/repository/LocationRepository";
+import { GetAvailablePokemons } from "@core/location/services/GetAvailablePokemon";
 import { PokemonJsonMapper } from "@core/pokemon/mappers/PokemonJsonMapper";
 import { PokemonMapper } from "@core/pokemon/mappers/PokemonMapper";
 import { PokemonStatCalculator } from "@core/pokemon/services/calculator/PokemonStatCalculator";
@@ -21,6 +22,8 @@ import { GrowthRates } from "@core/pokemon/types/pokemon/PokemonGrowthRates";
 import { PokemonJson } from "@core/pokemon/types/pokemon/PokemonJson";
 import { Cache } from "@core/shared/services/cache/Cache";
 import { JsonCache } from "@core/shared/services/cache/JsonCache";
+import { FileLogger } from "@core/shared/services/logger/FileLogger";
+import { Logger } from "@core/shared/services/logger/interfaces/Logger";
 import { Reader } from "@core/shared/services/reader/Reader";
 import { PokemonJsonRepository } from "../core/pokemon/repository/PokemonJsonRepository";
 import { PokemonRepository } from "../core/pokemon/repository/PokemonRepository";
@@ -88,5 +91,13 @@ const pokemonExperienceCalculator: ExperienceCalculatorRegistry = {
 container
   .bind<ExperienceCalculatorRegistry>(TYPES.ExperienceCalculatorRegistry)
   .toConstantValue(pokemonExperienceCalculator);
+
+container
+  .bind<LocationRepository>(TYPES.LocationRepository)
+  .to(LocationJsonRepository);
+
+container
+  .bind<GetAvailablePokemons>(TYPES.GetAvailablePokemons)
+  .to(GetAvailablePokemons);
 
 export default container;

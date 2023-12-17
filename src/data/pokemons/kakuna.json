@@ -1,0 +1,19 @@
+{
+  "name": "Kakuna",
+  "types": {
+    "primary": "Bug",
+    "secondary": "Poison"
+  },
+  "baseStats": {
+    "health": 45,
+    "attack": 25,
+    "defense": 50,
+    "specialAttack": 25,
+    "specialDefense": 25,
+    "speed": 35
+  },
+  "abilities": ["Shed Skin"],
+  "genderRatio": 50,
+  "catchRate": 120,
+  "eggCycles": 15
+}

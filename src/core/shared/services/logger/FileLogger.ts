@@ -1,8 +1,8 @@
 import { mkdirSync, promises } from "fs";
 import { injectable } from "inversify";
 import path from "path";
-import data from "../../../package.json";
-import { getCurrentTimeStamp } from "../shared/services";
+import { getCurrentTimeStamp } from "..";
+import data from "../../../../../package.json";
 import { Log, LogInfo } from "./interfaces/LogData";
 import { Logger } from "./interfaces/Logger";
 

@@ -31,7 +31,8 @@ export class PokemonStatCalculator implements StatCalculator {
   }): PokemonStatsData {
     const { baseStats, nature, level, growthRate } = data;
     const nextLevelExperience = this.calculateExperience(level + 1, growthRate);
-    const currentExperience = this.calculateExperience(level, growthRate);
+    const currentExperience =
+      level === 1 ? 0 : this.calculateExperience(level, growthRate);
     const stats: Record<StatKey, PokemonStat> = {} as Record<
       StatKey,
       PokemonStat

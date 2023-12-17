@@ -1,0 +1,19 @@
+{
+  "name": "Zubat",
+  "types": {
+    "primary": "Poison",
+    "secondary": "Flying"
+  },
+  "baseStats": {
+    "health": 40,
+    "attack": 45,
+    "defense": 35,
+    "specialAttack": 30,
+    "specialDefense": 40,
+    "speed": 55
+  },
+  "abilities": ["Inner Focus", "Infiltrator"],
+  "genderRatio": 50,
+  "catchRate": 255,
+  "eggCycles": 15
+}

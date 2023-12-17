@@ -1,8 +1,7 @@
 import { TYPES } from "@config/Types";
-import { Logger } from "@core/logger/interfaces/Logger";
 import { PokemonJson } from "@core/pokemon/types/pokemon/PokemonJson";
-import { getRandomToList } from "@core/shared/services";
 import { Cache } from "@core/shared/services/cache/Cache";
+import { Logger } from "@core/shared/services/logger/interfaces/Logger";
 import { JsonReader } from "@core/shared/services/reader/JsonReader";
 import { inject, injectable } from "inversify";
 import path from "path";
@@ -26,16 +25,16 @@ export class PokemonJsonRepository implements PokemonRepository {
     private readonly mapper: PokemonMapper<PokemonJson>
   ) {}
 
-  //TODO: Refactor. Cambiar tipado del parámetro de entrada por tipo Zone que contendra
-  //TODO: un listado con los nombres de pokemons disponibles en esa zona
-  async getPokemons(zone: string[]): Promise<PokemonBaseData[]> {
+  async getPokemons(names: string[]): Promise<PokemonBaseData[]> {
     const pokemonFiles = await this.jsonReader.readDirAsync(
       this.pokemonDataDir
     );
 
     const validPokemonFiles = pokemonFiles
       .map((pokemonFile) => pokemonFile.toLowerCase())
-      .filter((pokemonFile) => zone.includes(pokemonFile.replace(".json", "")));
+      .filter((pokemonFile) =>
+        names.includes(pokemonFile.replace(".json", ""))
+      );
 
     const pokemons: PokemonBaseData[] = [];
 
@@ -72,7 +71,39 @@ export class PokemonJsonRepository implements PokemonRepository {
     return pokemons;
   }
 
-  private setRandomAbility(abilites: string[]): string {
-    return getRandomToList(abilites);
+  async getPokemon(name: string): Promise<PokemonBaseData> {
+    const pokemonFiles = await this.getDirectoryFiles();
+
+    const pokemonFile = pokemonFiles.find(
+      (pokemonFile) =>
+        pokemonFile.replace(".json", "").toLowerCase() === name.toLowerCase()
+    );
+
+    if (!pokemonFile) {
+      this.logger.error({
+        message: `Pokemon ${name} not found`,
+        data: { name },
+        method: "PokemonJsonRepository.getPokemon",
+      });
+      throw new Error(`Pokemon ${name} not found`);
+    }
+
+    const pokemonJSON = await this.jsonReader.readFileAsync<PokemonJson>(
+      path.join(this.pokemonDataDir, pokemonFile)
+    );
+
+    await this.logger.info({
+      message: `Pokemon ${name} readed`,
+      data: { pokemonJSON },
+      method: "PokemonJsonRepository.getPokemon",
+    });
+
+    const pokemonBaseData = this.mapper.toPokemonBase(pokemonJSON);
+
+    return pokemonBaseData;
+  }
+
+  private async getDirectoryFiles(): Promise<string[]> {
+    return this.jsonReader.readDirAsync(this.pokemonDataDir);
   }
 }

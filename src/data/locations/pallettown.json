@@ -1,0 +1,43 @@
+{
+  "name": "Pallet Town",
+  "routes": [
+    {
+      "name": "Route 1",
+      "cycle": {
+        "day": {
+          "pokemon": [
+            { "name": "Pidgey", "encounterRate": 30 },
+            { "name": "Pikachu", "encounterRate": 5 }
+          ]
+        },
+        "night": {
+          "pokemon": [
+            { "name": "Caterpie", "encounterRate": 30 },
+            { "name": "Zubat", "encounterRate": 30 },
+            { "name": "Pikachu", "encounterRate": 5 },
+            { "name": "Bulbasaur", "encounterRate": 20 },
+            { "name": "Charmander", "encounterRate": 15 }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Route 2",
+      "cycle": {
+        "day": {
+          "pokemon": [
+            { "name": "Caterpie", "encounterRate": 30 },
+            { "name": "Weedle", "encounterRate": 30 },
+            { "name": "Pikachu", "encounterRate": 5 }
+          ]
+        },
+        "night": {
+          "pokemon": [
+            { "name": "Metapod", "encounterRate": 20 },
+            { "name": "Kakuna", "encounterRate": 15 }
+          ]
+        }
+      }
+    }
+  ]
+}

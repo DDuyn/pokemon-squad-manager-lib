@@ -1,5 +1,5 @@
 import { TYPES } from "@config/Types";
-import { Logger } from "@core/logger/interfaces/Logger";
+import { Logger } from "@core/shared/services/logger/interfaces/Logger";
 import { inject, injectable } from "inversify";
 import { ExperienceCalculator } from "./ExperienceCalculator";
 

@@ -1,6 +1,7 @@
 import { TYPES } from "@config/Types";
-import { Logger } from "@core/logger/interfaces/Logger";
+import { Gender } from "@core/pokemon/types/pokemon/PokemonGender";
 import { getRandomNumber, getRandomToList } from "@core/shared/services";
+import { Logger } from "@core/shared/services/logger/interfaces/Logger";
 import { inject, injectable } from "inversify";
 import { PokemonRepository } from "../../repository/PokemonRepository";
 import {
@@ -11,7 +12,7 @@ import {
   PokemonBasicBaseData,
   PokemonBasicData,
 } from "../../types/pokemon/PokemonBasic";
-import { Pokemon, PokemonBaseData } from "../../types/pokemon/PokemonData";
+import { Pokemon } from "../../types/pokemon/PokemonData";
 import {
   PokemonDetailBaseData,
   PokemonDetailData,
@@ -34,12 +35,15 @@ export class PokemonGenerator {
     private readonly statCalculator: StatCalculator
   ) {}
 
-  async generate(): Promise<Pokemon> {
-    const pokemonBase = await this.getRandomPokemonBase();
+  async generate(name: string): Promise<Pokemon> {
+    const pokemonBase = await this.repository.getPokemon(name);
     const pokemon = {} as Pokemon;
 
-    pokemon.basic = this.generateBasicData(pokemonBase.basic);
     pokemon.detail = this.generateDetailData(pokemonBase.detail);
+    pokemon.basic = this.generateBasicData(
+      pokemonBase.basic,
+      pokemon.detail.genderRatio
+    );
     pokemon.moves = pokemonBase.moves;
     pokemon.stats = this.generateStatsData(
       pokemonBase.stats,
@@ -57,22 +61,18 @@ export class PokemonGenerator {
     return pokemon;
   }
 
-  private async getRandomPokemonBase(): Promise<PokemonBaseData> {
-    const pokemonsAvailable = await this.repository.getPokemons([
-      "bulbasaur",
-      "charmander",
-    ]); //TODO: Refactor. Cambiar tipado del parámetro de entrada por tipo Zone que contendra
-
-    const pokemon = getRandomToList(pokemonsAvailable);
-    return pokemon;
-  }
-
-  private generateBasicData(basicData: PokemonBasicBaseData): PokemonBasicData {
+  private generateBasicData(
+    basicData: PokemonBasicBaseData,
+    genderRatio: number
+  ): PokemonBasicData {
+    const gender =
+      Math.random() * 100 < genderRatio ? Gender.Male : Gender.Female;
     return {
       id: crypto.randomUUID(),
       name: basicData.name,
       types: basicData.types,
       nature: getRandomToList(Object.values(Natures)),
+      gender: gender,
     };
   }
 

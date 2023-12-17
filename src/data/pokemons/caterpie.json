@@ -1,0 +1,19 @@
+{
+  "name": "Caterpie",
+  "types": {
+    "primary": "Bug",
+    "secondary": null
+  },
+  "baseStats": {
+    "health": 45,
+    "attack": 30,
+    "defense": 35,
+    "specialAttack": 20,
+    "specialDefense": 20,
+    "speed": 45
+  },
+  "abilities": ["Shield Dust", "Run Away"],
+  "genderRatio": 50,
+  "catchRate": 255,
+  "eggCycles": 15
+}

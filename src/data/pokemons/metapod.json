@@ -1,0 +1,19 @@
+{
+  "name": "Metapod",
+  "types": {
+    "primary": "Bug",
+    "secondary": null
+  },
+  "baseStats": {
+    "health": 50,
+    "attack": 20,
+    "defense": 55,
+    "specialAttack": 25,
+    "specialDefense": 25,
+    "speed": 30
+  },
+  "abilities": ["Shed Skin"],
+  "genderRatio": 50,
+  "catchRate": 120,
+  "eggCycles": 15
+}

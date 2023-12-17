@@ -1,0 +1,19 @@
+{
+  "name": "Weedle",
+  "types": {
+    "primary": "Bug",
+    "secondary": "Poison"
+  },
+  "baseStats": {
+    "health": 40,
+    "attack": 35,
+    "defense": 30,
+    "specialAttack": 20,
+    "specialDefense": 20,
+    "speed": 50
+  },
+  "abilities": ["Shield Dust", "Run Away"],
+  "genderRatio": 50,
+  "catchRate": 255,
+  "eggCycles": 15
+}
