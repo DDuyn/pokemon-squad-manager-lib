@@ -1,21 +1,21 @@
 export const TYPES = {
   Logger: Symbol.for("Logger"),
-  PokemonGenerator: Symbol.for("PokemonGenerator"),
+  GeneratePokemon: Symbol.for("GeneratePokemon"),
   PokemonMapper: Symbol.for("PokemonMapper"),
   Reader: Symbol.for("Reader"),
   Cache: Symbol.for("Cache"),
   PokemonRepository: Symbol.for("PokemonRepository"),
-  ExperienceCalculatorFactory: Symbol.for("ExperienceCalculatorFactory"),
-  ExperienceCalculatorRegistry: Symbol.for("ExperienceCalculatorRegistry"),
-  ErraticExperienceCalculator: Symbol.for("ErraticExperienceCalculator"),
-  FastExperienceCalculator: Symbol.for("FastExperienceCalculator"),
-  FluctuatingExperienceCalculator: Symbol.for(
-    "FluctuatingExperienceCalculator"
+  CalculateExperienceFactory: Symbol.for("CalculateExperienceFactory"),
+  CalculateExperienceFactoryRegistry: Symbol.for(
+    "CalculateExperienceFactoryRegistry"
   ),
-  MediumFastExperienceCalculator: Symbol.for("MediumFastExperienceCalculator"),
-  MediumSlowExperienceCalculator: Symbol.for("MediumSlowExperienceCalculator"),
-  SlowExperienceCalculator: Symbol.for("SlowExperienceCalculator"),
-  StatCalculator: Symbol.for("StatCalculator"),
+  CalculateErraticExperience: Symbol.for("CalculateErraticExperience"),
+  CalculateFastExperience: Symbol.for("CalculateFastExperience"),
+  CalculateFluctuatingExperience: Symbol.for("CalculateFluctuatingExperience"),
+  CalculateMediumFastExperience: Symbol.for("CalculateMediumFastExperience"),
+  CalculateMediumSlowExperience: Symbol.for("CalculateMediumSlowExperience"),
+  CalculateSlowExperience: Symbol.for("CalculateSlowExperience"),
+  GenerateStats: Symbol.for("GenerateStats"),
   ExperienceCalculator: Symbol.for("ExperienceCalculator"),
   LocationRepository: Symbol.for("LocationRepository"),
   GetAvailablePokemons: Symbol.for("GetAvailablePokemons"),

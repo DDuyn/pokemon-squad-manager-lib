@@ -21,7 +21,8 @@
     "types": ["bun-types"],
     "paths": {
       "@core/*": ["./src/core/*"],
-      "@config/*": ["./src/config/*"]
+      "@config/*": ["./src/config/*"],
+      "@shared/*": ["./src/shared/*"]
     }
   }
 }

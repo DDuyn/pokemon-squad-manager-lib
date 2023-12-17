@@ -1,6 +1,6 @@
 import { Archetype } from "@core/character/types/Archetype";
 import { expect, test } from "bun:test";
-import { generateCharacter } from "../../../../src/services/GenerateCharacter";
+import { generateCharacter } from "../../../../src/features/GenerateCharacter";
 
 test("Character should have a valid archetype", () => {
   const character = generateCharacter();

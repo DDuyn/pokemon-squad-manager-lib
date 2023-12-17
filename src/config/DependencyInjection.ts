@@ -1,39 +1,38 @@
-import { PokemonGenerator } from "@core/pokemon/services/generator/PokemonGenerator";
-import { JsonReader } from "@core/shared/services/reader/JsonReader";
+import { CalculateExperienceFactory } from "@core/factories/experience/CalculateExperienceFactory";
+import { CalculateErraticExperience } from "@core/factories/experience/services/CalculateErraticExperience";
+import { CalculateFastExperience } from "@core/factories/experience/services/CalculateFastExperience";
+import { CalculateFluctuatingExperience } from "@core/factories/experience/services/CalculateFluctuatingExperience";
+import { CalculateMediumFastExperience } from "@core/factories/experience/services/CalculateMediumFastExperience";
+import { CalculateMediumSlowExperience } from "@core/factories/experience/services/CalculateMediumSlowExperience";
+import { CalculateSlowExperience } from "@core/factories/experience/services/CalculateSlowExperience";
+import { CalculateExperienceStat } from "@core/interfaces/experience/CalculateExperienceStat";
+import { GenerateStats } from "@core/interfaces/experience/GenerateStats";
+import { PokemonJsonMapper } from "@core/mappers/pokemon/PokemonJsonMapper";
+import { PokemonMapper } from "@core/mappers/pokemon/PokemonMapper";
+import { LocationJsonRepository } from "@core/repositories/location/LocationJsonRepository";
+import { LocationRepository } from "@core/repositories/location/LocationRepository";
+import { GeneratePokemon } from "@core/services/GeneratePokemon";
+import { GeneratePokemonStats } from "@core/services/GeneratePokemonStats";
+import { GetAvailablePokemons } from "@core/services/GetAvailablePokemon";
+import { CalculateExperienceFactoryRegistry } from "@core/types/experience/ExperienceCalculatorRegistry";
+import { GrowthRates } from "@core/types/pokemon/PokemonGrowthRates";
+import { PokemonJson } from "@core/types/pokemon/PokemonJson";
+import { Cache } from "@shared/services/cache/Cache";
+import { JsonCache } from "@shared/services/cache/JsonCache";
+import { FileLogger } from "@shared/services/logger/FileLogger";
+import { Logger } from "@shared/services/logger/interfaces/Logger";
+import { JsonReader } from "@shared/services/reader/JsonReader";
+import { Reader } from "@shared/services/reader/Reader";
 import { Container } from "inversify";
 import "reflect-metadata";
-
-import { LocationJsonRepository } from "@core/location/repository/LocationJsonRepository";
-import { LocationRepository } from "@core/location/repository/LocationRepository";
-import { GetAvailablePokemons } from "@core/location/services/GetAvailablePokemon";
-import { PokemonJsonMapper } from "@core/pokemon/mappers/PokemonJsonMapper";
-import { PokemonMapper } from "@core/pokemon/mappers/PokemonMapper";
-import { PokemonStatCalculator } from "@core/pokemon/services/calculator/PokemonStatCalculator";
-import { StatCalculator } from "@core/pokemon/services/calculator/StatCalculator";
-import { ErraticExperienceCalculator } from "@core/pokemon/services/calculator/experience/ErraticExperienceCalculator";
-import { ExperienceCalculator } from "@core/pokemon/services/calculator/experience/ExperienceCalculator";
-import { ExperienceCalculatorFactory } from "@core/pokemon/services/calculator/experience/ExperienceCalculatorFactory";
-import { FastExperienceCalculator } from "@core/pokemon/services/calculator/experience/FastExperienceCalculator";
-import { FluctuatingExperienceCalculator } from "@core/pokemon/services/calculator/experience/FluctuatingExperienceCalculator";
-import { MediumSlowExperienceCalculator } from "@core/pokemon/services/calculator/experience/MediumSlowExperienceCalculator";
-import { SlowExperienceCalculator } from "@core/pokemon/services/calculator/experience/SlowExperienceCalculator";
-import { ExperienceCalculatorRegistry } from "@core/pokemon/types/calculator/ExperienceCalculatorRegistry";
-import { GrowthRates } from "@core/pokemon/types/pokemon/PokemonGrowthRates";
-import { PokemonJson } from "@core/pokemon/types/pokemon/PokemonJson";
-import { Cache } from "@core/shared/services/cache/Cache";
-import { JsonCache } from "@core/shared/services/cache/JsonCache";
-import { FileLogger } from "@core/shared/services/logger/FileLogger";
-import { Logger } from "@core/shared/services/logger/interfaces/Logger";
-import { Reader } from "@core/shared/services/reader/Reader";
-import { PokemonJsonRepository } from "../core/pokemon/repository/PokemonJsonRepository";
-import { PokemonRepository } from "../core/pokemon/repository/PokemonRepository";
-import { MediumFastExperienceCalculator } from "../core/pokemon/services/calculator/experience/MediumFastExperienceCalculator";
+import { PokemonJsonRepository } from "../core/repositories/pokemon/PokemonJsonRepository";
+import { PokemonRepository } from "../core/repositories/pokemon/PokemonRepository";
 import { TYPES } from "./Types";
 
 //TODO: Refactor para modularizar la inyección de dependencias
 const container = new Container();
 container.bind<Logger>(TYPES.Logger).to(FileLogger);
-container.bind<PokemonGenerator>(TYPES.PokemonGenerator).to(PokemonGenerator);
+container.bind<GeneratePokemon>(TYPES.GeneratePokemon).to(GeneratePokemon);
 container
   .bind<PokemonMapper<PokemonJson>>(TYPES.PokemonMapper)
   .to(PokemonJsonMapper);
@@ -44,53 +43,55 @@ container
 container.bind<Cache<PokemonJson>>(TYPES.Cache).to(JsonCache);
 
 container
-  .bind<ExperienceCalculatorFactory>(TYPES.ExperienceCalculatorFactory)
-  .to(ExperienceCalculatorFactory);
-container.bind<StatCalculator>(TYPES.StatCalculator).to(PokemonStatCalculator);
+  .bind<CalculateExperienceFactory>(TYPES.CalculateExperienceFactory)
+  .to(CalculateExperienceFactory);
+container.bind<GenerateStats>(TYPES.GenerateStats).to(GeneratePokemonStats);
 
 container
-  .bind<ExperienceCalculator>(TYPES.ErraticExperienceCalculator)
-  .to(ErraticExperienceCalculator);
+  .bind<CalculateExperienceStat>(TYPES.CalculateErraticExperience)
+  .to(CalculateErraticExperience);
 container
-  .bind<ExperienceCalculator>(TYPES.SlowExperienceCalculator)
-  .to(SlowExperienceCalculator);
+  .bind<CalculateExperienceStat>(TYPES.CalculateSlowExperience)
+  .to(CalculateSlowExperience);
 container
-  .bind<ExperienceCalculator>(TYPES.MediumSlowExperienceCalculator)
-  .to(MediumSlowExperienceCalculator);
+  .bind<CalculateExperienceStat>(TYPES.CalculateMediumSlowExperience)
+  .to(CalculateMediumSlowExperience);
 container
-  .bind<ExperienceCalculator>(TYPES.FluctuatingExperienceCalculator)
-  .to(FluctuatingExperienceCalculator);
+  .bind<CalculateExperienceStat>(TYPES.CalculateFluctuatingExperience)
+  .to(CalculateFluctuatingExperience);
 container
-  .bind<ExperienceCalculator>(TYPES.MediumFastExperienceCalculator)
-  .to(MediumFastExperienceCalculator);
+  .bind<CalculateExperienceStat>(TYPES.CalculateMediumFastExperience)
+  .to(CalculateMediumFastExperience);
 container
-  .bind<ExperienceCalculator>(TYPES.FastExperienceCalculator)
-  .to(FastExperienceCalculator);
+  .bind<CalculateExperienceStat>(TYPES.CalculateFastExperience)
+  .to(CalculateFastExperience);
 
-const pokemonExperienceCalculator: ExperienceCalculatorRegistry = {
-  [GrowthRates.Erratic]: container.get<ExperienceCalculator>(
-    TYPES.ErraticExperienceCalculator
+const calculateExperienceRegistry: CalculateExperienceFactoryRegistry = {
+  [GrowthRates.Erratic]: container.get<CalculateExperienceStat>(
+    TYPES.CalculateErraticExperience
   ),
-  [GrowthRates.Fast]: container.get<ExperienceCalculator>(
-    TYPES.FastExperienceCalculator
+  [GrowthRates.Fast]: container.get<CalculateExperienceStat>(
+    TYPES.CalculateFastExperience
   ),
-  [GrowthRates.Fluctuating]: container.get<ExperienceCalculator>(
-    TYPES.FluctuatingExperienceCalculator
+  [GrowthRates.Fluctuating]: container.get<CalculateExperienceStat>(
+    TYPES.CalculateFluctuatingExperience
   ),
-  [GrowthRates.MediumFast]: container.get<ExperienceCalculator>(
-    TYPES.MediumFastExperienceCalculator
+  [GrowthRates.MediumFast]: container.get<CalculateExperienceStat>(
+    TYPES.CalculateMediumFastExperience
   ),
-  [GrowthRates.MediumSlow]: container.get<ExperienceCalculator>(
-    TYPES.MediumSlowExperienceCalculator
+  [GrowthRates.MediumSlow]: container.get<CalculateExperienceStat>(
+    TYPES.CalculateMediumSlowExperience
   ),
-  [GrowthRates.Slow]: container.get<ExperienceCalculator>(
-    TYPES.SlowExperienceCalculator
+  [GrowthRates.Slow]: container.get<CalculateExperienceStat>(
+    TYPES.CalculateSlowExperience
   ),
 };
 
 container
-  .bind<ExperienceCalculatorRegistry>(TYPES.ExperienceCalculatorRegistry)
-  .toConstantValue(pokemonExperienceCalculator);
+  .bind<CalculateExperienceFactoryRegistry>(
+    TYPES.CalculateExperienceFactoryRegistry
+  )
+  .toConstantValue(calculateExperienceRegistry);
 
 container
   .bind<LocationRepository>(TYPES.LocationRepository)

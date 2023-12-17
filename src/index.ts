@@ -1,6 +1,6 @@
 import "reflect-metadata";
-import { generatePokemon } from "./services/GeneratePokemon";
+import { encounterPokemon } from "./features/EncounterPokemon";
 
-const b = await generatePokemon();
+const b = await encounterPokemon();
 
 console.log(b);
