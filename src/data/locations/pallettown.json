@@ -3,15 +3,19 @@
   "routes": [
     {
       "name": "Route 1",
+      "level": {
+        "min": 2,
+        "max": 5
+      },
       "cycle": {
         "day": {
-          "pokemon": [
+          "pokemons": [
             { "name": "Pidgey", "encounterRate": 30 },
             { "name": "Pikachu", "encounterRate": 5 }
           ]
         },
         "night": {
-          "pokemon": [
+          "pokemons": [
             { "name": "Caterpie", "encounterRate": 30 },
             { "name": "Zubat", "encounterRate": 30 },
             { "name": "Pikachu", "encounterRate": 5 },
@@ -23,16 +27,20 @@
     },
     {
       "name": "Route 2",
+      "level": {
+        "min": 3,
+        "max": 7
+      },
       "cycle": {
         "day": {
-          "pokemon": [
+          "pokemons": [
             { "name": "Caterpie", "encounterRate": 30 },
             { "name": "Weedle", "encounterRate": 30 },
             { "name": "Pikachu", "encounterRate": 5 }
           ]
         },
         "night": {
-          "pokemon": [
+          "pokemons": [
             { "name": "Metapod", "encounterRate": 20 },
             { "name": "Kakuna", "encounterRate": 15 }
           ]

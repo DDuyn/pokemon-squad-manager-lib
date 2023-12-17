@@ -1,6 +1,7 @@
 import "reflect-metadata";
-import { encounterPokemon } from "./features/EncounterPokemon";
+import { EncounterPokemon } from "./features/EncounterPokemon";
 
-const b = await encounterPokemon();
+const e = new EncounterPokemon();
+const c = await e.getWildPokemon("pallettown", "Route 1");
 
-console.log(b);
+console.log(c);

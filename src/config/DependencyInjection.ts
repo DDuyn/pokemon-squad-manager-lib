@@ -6,7 +6,6 @@ import { CalculateMediumFastExperience } from "@core/factories/experience/servic
 import { CalculateMediumSlowExperience } from "@core/factories/experience/services/CalculateMediumSlowExperience";
 import { CalculateSlowExperience } from "@core/factories/experience/services/CalculateSlowExperience";
 import { CalculateExperienceStat } from "@core/interfaces/experience/CalculateExperienceStat";
-import { GenerateStats } from "@core/interfaces/experience/GenerateStats";
 import { PokemonJsonMapper } from "@core/mappers/pokemon/PokemonJsonMapper";
 import { PokemonMapper } from "@core/mappers/pokemon/PokemonMapper";
 import { LocationJsonRepository } from "@core/repositories/location/LocationJsonRepository";
@@ -45,7 +44,9 @@ container.bind<Cache<PokemonJson>>(TYPES.Cache).to(JsonCache);
 container
   .bind<CalculateExperienceFactory>(TYPES.CalculateExperienceFactory)
   .to(CalculateExperienceFactory);
-container.bind<GenerateStats>(TYPES.GenerateStats).to(GeneratePokemonStats);
+container
+  .bind<GeneratePokemonStats>(TYPES.GeneratePokemonStats)
+  .to(GeneratePokemonStats);
 
 container
   .bind<CalculateExperienceStat>(TYPES.CalculateErraticExperience)

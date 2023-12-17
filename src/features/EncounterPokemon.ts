@@ -1,19 +1,48 @@
 import { GeneratePokemon } from "@core/services/GeneratePokemon";
+import { GeneratePokemonStats } from "@core/services/GeneratePokemonStats";
 import { GetAvailablePokemons } from "@core/services/GetAvailablePokemon";
+import { PokemonEncounter } from "@core/types/location/Location";
+import { Pokemon } from "@core/types/pokemon/PokemonData";
+import { getRandomNumber } from "@shared/services/GetRandomNumber";
 import { getRandomToList } from "@shared/services/GetRandomToList";
 import container from "../config/DependencyInjection";
 import { TYPES } from "../config/Types";
 
-export const encounterPokemon = async () => {
-  const location = container.get<GetAvailablePokemons>(
-    TYPES.GetAvailablePokemons
-  );
-  const pokemonGenerator = container.get<GeneratePokemon>(
-    TYPES.GeneratePokemon
-  );
+export class EncounterPokemon {
+  private readonly getAvailablePokemons: GetAvailablePokemons;
+  private readonly generatePokemonStats: GeneratePokemonStats;
+  private readonly generatePokemon: GeneratePokemon;
+  constructor() {
+    this.getAvailablePokemons = container.get<GetAvailablePokemons>(
+      TYPES.GetAvailablePokemons
+    );
+    this.generatePokemon = container.get<GeneratePokemon>(
+      TYPES.GeneratePokemon
+    );
+    this.generatePokemonStats = container.get<GeneratePokemonStats>(
+      TYPES.GeneratePokemonStats
+    );
+  }
 
-  const availablePokemons = await location.execute("pallettown", "Route 1");
+  async getWildPokemon(
+    locationName: string,
+    routeName: string
+  ): Promise<Pokemon> {
+    const { availablePokemons, levelRange } =
+      await this.getAvailablePokemons.execute(locationName, routeName);
 
-  const pokemonToGenerate = getRandomToList(availablePokemons.pokemon);
-  return pokemonGenerator.execute(pokemonToGenerate.name);
-};
+    const pokemonToGenerate =
+      getRandomToList<PokemonEncounter>(availablePokemons);
+    const pokemon = await this.generatePokemon.execute(pokemonToGenerate.name);
+    const level = getRandomNumber(levelRange.min, levelRange.max);
+
+    pokemon.stats = await this.generatePokemonStats.execute({
+      baseStats: pokemon.base,
+      nature: pokemon.basic.nature,
+      level,
+      growthRate: pokemon.detail.growthRate,
+    });
+
+    return pokemon;
+  }
+}

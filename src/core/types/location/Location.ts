@@ -5,7 +5,13 @@ export type Location = {
 
 export type Route = {
   name: string;
+  level: LevelRange;
   cycle: Cycle;
+};
+
+export type LevelRange = {
+  min: number;
+  max: number;
 };
 
 export type Cycle = {
@@ -16,7 +22,7 @@ export type Cycle = {
 export type CycleName = keyof Cycle;
 
 export type PokemonEncounters = {
-  pokemon: PokemonEncounter[];
+  pokemons: PokemonEncounter[];
 };
 
 export type PokemonEncounter = {

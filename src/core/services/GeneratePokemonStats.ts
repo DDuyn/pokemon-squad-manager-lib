@@ -1,5 +1,4 @@
 import { TYPES } from "@config/Types";
-import { GenerateStats } from "@core/interfaces/experience/GenerateStats";
 import { GrowthRates } from "@core/types/pokemon/PokemonGrowthRates";
 import { NatureEffect, Natures } from "@core/types/pokemon/PokemonNatures";
 import {
@@ -14,7 +13,7 @@ import { inject, injectable } from "inversify";
 import { CalculateExperienceFactory } from "../factories/experience/CalculateExperienceFactory";
 
 @injectable()
-export class GeneratePokemonStats implements GenerateStats {
+export class GeneratePokemonStats {
   constructor(
     @inject(TYPES.CalculateExperienceFactory)
     private readonly calculateExperienceFactory: CalculateExperienceFactory
@@ -46,7 +45,6 @@ export class GeneratePokemonStats implements GenerateStats {
     }
 
     return {
-      baseStats,
       stats,
       level,
       nextLevelExperience,

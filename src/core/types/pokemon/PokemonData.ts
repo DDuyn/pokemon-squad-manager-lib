@@ -8,6 +8,7 @@ import { PokemonMovesData } from "./PokemonMoves";
 import { PokemonStatsBaseData, PokemonStatsData } from "./PokemonStats";
 
 export type Pokemon = {
+  base: PokemonStatsBaseData;
   basic: PokemonBasicData;
   ability: PokemonAbilitiesData;
   moves: PokemonMovesData;

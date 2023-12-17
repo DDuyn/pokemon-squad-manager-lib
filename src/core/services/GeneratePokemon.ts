@@ -1,10 +1,8 @@
 import { TYPES } from "@config/Types";
 import { Gender } from "@core/types/pokemon/PokemonGender";
-import { getRandomNumber } from "@shared/services/GetRandomNumber";
 import { getRandomToList } from "@shared/services/GetRandomToList";
 import { Logger } from "@shared/services/logger/interfaces/Logger";
 import { inject, injectable } from "inversify";
-import { GenerateStats } from "../interfaces/experience/GenerateStats";
 import { PokemonRepository } from "../repositories/pokemon/PokemonRepository";
 import {
   PokemonAbilitiesBaseData,
@@ -21,36 +19,27 @@ import {
 } from "../types/pokemon/PokemonDetail";
 import { GrowthRates } from "../types/pokemon/PokemonGrowthRates";
 import { Natures } from "../types/pokemon/PokemonNatures";
-import {
-  PokemonStatsBaseData,
-  PokemonStatsData,
-} from "../types/pokemon/PokemonStats";
 
 @injectable()
 export class GeneratePokemon {
   constructor(
     @inject(TYPES.Logger) private readonly logger: Logger,
     @inject(TYPES.PokemonRepository)
-    private readonly repository: PokemonRepository,
-    @inject(TYPES.GenerateStats)
-    private readonly generatePokemonStats: GenerateStats
+    private readonly repository: PokemonRepository
   ) {}
 
   async execute(name: string): Promise<Pokemon> {
     const pokemonBase = await this.repository.getPokemon(name);
     const pokemon = {} as Pokemon;
 
+    pokemon.base = pokemonBase.stats;
     pokemon.detail = this.generateDetailData(pokemonBase.detail);
     pokemon.basic = this.generateBasicData(
       pokemonBase.basic,
       pokemon.detail.genderRatio
     );
     pokemon.moves = pokemonBase.moves;
-    pokemon.stats = this.generateStatsData(
-      pokemonBase.stats,
-      pokemon.basic.nature,
-      pokemon.detail.growthRate
-    );
+
     pokemon.ability = this.generateAbilityData(pokemonBase.ability);
 
     await this.logger.info({
@@ -95,19 +84,5 @@ export class GeneratePokemon {
       availableAbilities: abilityData.availableAbilities,
       selectedAbility: getRandomToList(abilityData.availableAbilities),
     };
-  }
-
-  private generateStatsData(
-    baseStats: PokemonStatsBaseData,
-    nature: Natures,
-    growthRate: GrowthRates
-  ): PokemonStatsData {
-    const level = getRandomNumber(1, 5); //TODO: El nivel dependerá de un valor aleatorio dado por la zona
-    return this.generatePokemonStats.execute({
-      baseStats,
-      nature,
-      level,
-      growthRate,
-    });
   }
 }

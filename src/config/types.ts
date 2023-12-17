@@ -15,7 +15,7 @@ export const TYPES = {
   CalculateMediumFastExperience: Symbol.for("CalculateMediumFastExperience"),
   CalculateMediumSlowExperience: Symbol.for("CalculateMediumSlowExperience"),
   CalculateSlowExperience: Symbol.for("CalculateSlowExperience"),
-  GenerateStats: Symbol.for("GenerateStats"),
+  GeneratePokemonStats: Symbol.for("GeneratePokemonStats"),
   ExperienceCalculator: Symbol.for("ExperienceCalculator"),
   LocationRepository: Symbol.for("LocationRepository"),
   GetAvailablePokemons: Symbol.for("GetAvailablePokemons"),

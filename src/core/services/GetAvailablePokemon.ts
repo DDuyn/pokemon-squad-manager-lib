@@ -4,7 +4,8 @@ import { LocationRepository } from "../repositories/location/LocationRepository"
 import {
   Cycle,
   CycleName,
-  PokemonEncounters,
+  LevelRange,
+  PokemonEncounter,
 } from "../types/location/Location";
 
 @injectable()
@@ -17,7 +18,10 @@ export class GetAvailablePokemons {
   async execute(
     locationName: string,
     routeName: string
-  ): Promise<PokemonEncounters> {
+  ): Promise<{
+    availablePokemons: PokemonEncounter[];
+    levelRange: LevelRange;
+  }> {
     const location = await this.locationRepository.getLocation(locationName);
     const route = location.routes.find((route) => route.name === routeName);
 
@@ -27,7 +31,10 @@ export class GetAvailablePokemons {
 
     const cycleName = this.getCycleName();
 
-    return route.cycle[cycleName as keyof Cycle];
+    return {
+      availablePokemons: route.cycle[cycleName as keyof Cycle].pokemons,
+      levelRange: route.level,
+    };
   }
 
   private getCycleName(): CycleName {

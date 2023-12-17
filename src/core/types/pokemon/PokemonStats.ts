@@ -26,7 +26,6 @@ export type PokemonStatsBaseData = {
 };
 
 export type PokemonStatsData = {
-  baseStats: PokemonStatsBaseData;
   stats: PokemonStats;
   level: number;
   currentExperience: number;
