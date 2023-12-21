@@ -65,6 +65,7 @@ export class FileLogger implements Logger {
 
     jsonData.push(newData);
 
+    //TODO: Crear servicio de escritura de ficheros
     await promises.writeFile(filePath, JSON.stringify(jsonData, null, 2));
   }
 }

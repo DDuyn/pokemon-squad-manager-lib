@@ -15,5 +15,6 @@
   "abilities": ["Shed Skin"],
   "genderRatio": 50,
   "catchRate": 120,
-  "eggCycles": 15
+  "eggCycles": 15,
+  "baseExp": 72
 }

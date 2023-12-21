@@ -1,10 +1,14 @@
+import { PokemonJson } from "@core/types/pokemon/PokemonJson";
 import { injectable } from "inversify";
-import { PokemonBaseData } from "../../types/pokemon/PokemonData";
-import { PokemonJson } from "../../types/pokemon/PokemonJson";
+import {
+  EnemyPokemon,
+  OwnPokemon,
+  PokemonBaseData,
+} from "../../types/pokemon/PokemonData";
 import { PokemonMapper } from "./PokemonMapper";
 
 @injectable()
-export class PokemonJsonMapper implements PokemonMapper<PokemonJson> {
+export class PokemonJsonMapper implements PokemonMapper {
   toPokemonBase(pokemonData: PokemonJson): PokemonBaseData {
     return {
       basic: {
@@ -15,15 +19,24 @@ export class PokemonJsonMapper implements PokemonMapper<PokemonJson> {
         catchRate: pokemonData.catchRate,
         eggCycles: pokemonData.eggCycles,
         genderRatio: pokemonData.genderRatio,
+        baseExperience: pokemonData.baseExp,
       },
       ability: {
         availableAbilities: pokemonData.abilities,
       },
-      stats: pokemonData.baseStats,
+      attributes: pokemonData.baseStats,
       moves: {
         selectedMoves: [],
         learnableMoves: [],
       },
+    };
+  }
+
+  toOwnPokemon(enemyPokemon: EnemyPokemon): OwnPokemon {
+    return {
+      ...enemyPokemon,
+      isParticipating: false,
+      partyPosition: 0,
     };
   }
 }

@@ -15,5 +15,6 @@
   "abilities": ["Static", "Lightning Rod"],
   "genderRatio": 50,
   "catchRate": 190,
-  "eggCycles": 10
+  "eggCycles": 10,
+  "baseExp": 105
 }

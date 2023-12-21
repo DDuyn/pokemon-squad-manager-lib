@@ -26,7 +26,7 @@ export class GetAvailablePokemons {
     const route = location.routes.find((route) => route.name === routeName);
 
     if (!route) {
-      throw new Error(`Route ${route} not found`); //TODO: Crear excepción NOt Found
+      throw new Error(`Route ${route} not found`); //TODO: Crear excepción Not Found
     }
 
     const cycleName = this.getCycleName();

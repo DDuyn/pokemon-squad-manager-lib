@@ -15,5 +15,6 @@
   "abilities": ["Shield Dust", "Run Away"],
   "genderRatio": 50,
   "catchRate": 255,
-  "eggCycles": 15
+  "eggCycles": 15,
+  "baseExp": 52
 }

@@ -15,5 +15,6 @@
   "abilities": ["Inner Focus", "Infiltrator"],
   "genderRatio": 50,
   "catchRate": 255,
-  "eggCycles": 15
+  "eggCycles": 15,
+  "baseExp": 49
 }

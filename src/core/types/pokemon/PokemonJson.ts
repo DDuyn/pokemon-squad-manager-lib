@@ -9,4 +9,5 @@ export type PokemonJson = {
   genderRatio: number;
   catchRate: number;
   eggCycles: number;
+  baseExp: number;
 };

@@ -1,4 +1,5 @@
 import { TYPES } from "@config/Types";
+import { LevelRange } from "@core/types/location/Location";
 import { Gender } from "@core/types/pokemon/PokemonGender";
 import { getRandomToList } from "@shared/services/GetRandomToList";
 import { Logger } from "@shared/services/logger/interfaces/Logger";
@@ -19,26 +20,33 @@ import {
 } from "../types/pokemon/PokemonDetail";
 import { GrowthRates } from "../types/pokemon/PokemonGrowthRates";
 import { Natures } from "../types/pokemon/PokemonNatures";
+import { GeneratePokemonStats } from "./GeneratePokemonStats";
 
 @injectable()
 export class GeneratePokemon {
   constructor(
     @inject(TYPES.Logger) private readonly logger: Logger,
     @inject(TYPES.PokemonRepository)
-    private readonly repository: PokemonRepository
+    private readonly repository: PokemonRepository,
+    @inject(TYPES.GeneratePokemonStats)
+    private readonly generatePokemonStats: GeneratePokemonStats
   ) {}
 
-  async execute(name: string): Promise<Pokemon> {
+  async execute(name: string, levelRange: LevelRange): Promise<Pokemon> {
     const pokemonBase = await this.repository.getPokemon(name);
     const pokemon = {} as Pokemon;
 
-    pokemon.base = pokemonBase.stats;
+    pokemon.base = pokemonBase.attributes;
     pokemon.detail = this.generateDetailData(pokemonBase.detail);
     pokemon.basic = this.generateBasicData(
       pokemonBase.basic,
       pokemon.detail.genderRatio
     );
     pokemon.moves = pokemonBase.moves;
+    pokemon.attributes = await this.generatePokemonStats.execute(
+      pokemon,
+      levelRange
+    );
 
     pokemon.ability = this.generateAbilityData(pokemonBase.ability);
 
@@ -59,8 +67,7 @@ export class GeneratePokemon {
       Math.random() * 100 < genderRatio ? Gender.Male : Gender.Female;
     return {
       id: crypto.randomUUID(),
-      name: basicData.name,
-      types: basicData.types,
+      ...basicData,
       nature: getRandomToList(Object.values(Natures)),
       gender: gender,
     };
@@ -70,9 +77,7 @@ export class GeneratePokemon {
     detailData: PokemonDetailBaseData
   ): PokemonDetailData {
     return {
-      catchRate: detailData.catchRate,
-      eggCycles: detailData.eggCycles,
-      genderRatio: detailData.genderRatio,
+      ...detailData,
       growthRate: getRandomToList(Object.values(GrowthRates)),
     };
   }

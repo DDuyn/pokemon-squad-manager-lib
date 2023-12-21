@@ -1,3 +1,6 @@
+import { Container } from "inversify";
+import "reflect-metadata";
+
 import { CalculateExperienceFactory } from "@core/factories/experience/CalculateExperienceFactory";
 import { CalculateErraticExperience } from "@core/factories/experience/services/CalculateErraticExperience";
 import { CalculateFastExperience } from "@core/factories/experience/services/CalculateFastExperience";
@@ -10,6 +13,8 @@ import { PokemonJsonMapper } from "@core/mappers/pokemon/PokemonJsonMapper";
 import { PokemonMapper } from "@core/mappers/pokemon/PokemonMapper";
 import { LocationJsonRepository } from "@core/repositories/location/LocationJsonRepository";
 import { LocationRepository } from "@core/repositories/location/LocationRepository";
+import { CatchPokemon } from "@core/services/CatchPokemon";
+import { GainExperience } from "@core/services/GainExperience";
 import { GeneratePokemon } from "@core/services/GeneratePokemon";
 import { GeneratePokemonStats } from "@core/services/GeneratePokemonStats";
 import { GetAvailablePokemons } from "@core/services/GetAvailablePokemon";
@@ -22,8 +27,6 @@ import { FileLogger } from "@shared/services/logger/FileLogger";
 import { Logger } from "@shared/services/logger/interfaces/Logger";
 import { JsonReader } from "@shared/services/reader/JsonReader";
 import { Reader } from "@shared/services/reader/Reader";
-import { Container } from "inversify";
-import "reflect-metadata";
 import { PokemonJsonRepository } from "../core/repositories/pokemon/PokemonJsonRepository";
 import { PokemonRepository } from "../core/repositories/pokemon/PokemonRepository";
 import { TYPES } from "./Types";
@@ -32,9 +35,7 @@ import { TYPES } from "./Types";
 const container = new Container();
 container.bind<Logger>(TYPES.Logger).to(FileLogger);
 container.bind<GeneratePokemon>(TYPES.GeneratePokemon).to(GeneratePokemon);
-container
-  .bind<PokemonMapper<PokemonJson>>(TYPES.PokemonMapper)
-  .to(PokemonJsonMapper);
+container.bind<PokemonMapper>(TYPES.PokemonMapper).to(PokemonJsonMapper);
 container.bind<Reader>(TYPES.Reader).to(JsonReader);
 container
   .bind<PokemonRepository>(TYPES.PokemonRepository)
@@ -101,5 +102,8 @@ container
 container
   .bind<GetAvailablePokemons>(TYPES.GetAvailablePokemons)
   .to(GetAvailablePokemons);
+
+container.bind<CatchPokemon>(TYPES.CatchPokemon).to(CatchPokemon);
+container.bind<GainExperience>(TYPES.GainExperience).to(GainExperience);
 
 export default container;

@@ -1,9 +1,10 @@
 import { TYPES } from "@config/Types";
+import { LevelRange } from "@core/types/location/Location";
+import { Pokemon } from "@core/types/pokemon/PokemonData";
 import { GrowthRates } from "@core/types/pokemon/PokemonGrowthRates";
 import { NatureEffect, Natures } from "@core/types/pokemon/PokemonNatures";
 import {
   PokemonStat,
-  PokemonStatsBaseData,
   PokemonStatsData,
   StatKey,
   StatKeyWithoutHealth,
@@ -19,16 +20,16 @@ export class GeneratePokemonStats {
     private readonly calculateExperienceFactory: CalculateExperienceFactory
   ) {}
 
-  execute(data: {
-    baseStats: PokemonStatsBaseData;
-    nature: Natures;
-    level: number;
-    growthRate: GrowthRates;
-  }): PokemonStatsData {
-    const { baseStats, nature, level, growthRate } = data;
-    const nextLevelExperience = this.calculateExperience(level + 1, growthRate);
+  execute(pokemon: Pokemon, levelRange: LevelRange): PokemonStatsData {
+    const { base, basic, detail } = pokemon;
+    const level = getRandomNumber(levelRange.min, levelRange.max);
+
+    const nextLevelExperience = this.calculateExperience(
+      level + 1,
+      detail.growthRate
+    );
     const currentExperience =
-      level === 1 ? 0 : this.calculateExperience(level, growthRate);
+      level === 1 ? 0 : this.calculateExperience(level, detail.growthRate);
     const stats: Record<StatKey, PokemonStat> = {} as Record<
       StatKey,
       PokemonStat
@@ -38,7 +39,7 @@ export class GeneratePokemonStats {
       if (Object.prototype.hasOwnProperty.call(StatKey, statKey)) {
         const key = statKey as StatKey;
         stats[key] = this.generateStat(
-          { value: baseStats[key], nature, level },
+          { value: base[key], nature: basic.nature, level },
           key
         );
       }

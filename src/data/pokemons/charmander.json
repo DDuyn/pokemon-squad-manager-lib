@@ -15,5 +15,6 @@
   "abilities": ["Blaze", "Solar Power"],
   "genderRatio": 87,
   "catchRate": 45,
-  "eggCycles": 20
+  "eggCycles": 20,
+  "baseExp": 62
 }

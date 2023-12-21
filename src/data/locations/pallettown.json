@@ -11,7 +11,10 @@
         "day": {
           "pokemons": [
             { "name": "Pidgey", "encounterRate": 30 },
-            { "name": "Pikachu", "encounterRate": 5 }
+            { "name": "Pikachu", "encounterRate": 5 },
+            { "name": "Metapod", "encounterRate": 20 },
+            { "name": "Kakuna", "encounterRate": 15 },
+            { "name": "Caterpie", "encounterRate": 30 }
           ]
         },
         "night": {
@@ -36,13 +39,18 @@
           "pokemons": [
             { "name": "Caterpie", "encounterRate": 30 },
             { "name": "Weedle", "encounterRate": 30 },
-            { "name": "Pikachu", "encounterRate": 5 }
+            { "name": "Pikachu", "encounterRate": 5 },
+            { "name": "Bulbasaur", "encounterRate": 20 },
+            { "name": "Charmander", "encounterRate": 15 }
           ]
         },
         "night": {
           "pokemons": [
             { "name": "Metapod", "encounterRate": 20 },
-            { "name": "Kakuna", "encounterRate": 15 }
+            { "name": "Kakuna", "encounterRate": 15 },
+            { "name": "Weedle", "encounterRate": 30 },
+            { "name": "Pikachu", "encounterRate": 5 },
+            { "name": "Zubat", "encounterRate": 30 }
           ]
         }
       }
