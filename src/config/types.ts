@@ -20,5 +20,5 @@ export const TYPES = {
   LocationRepository: Symbol.for("LocationRepository"),
   GetAvailablePokemons: Symbol.for("GetAvailablePokemons"),
   CatchPokemon: Symbol.for("CatchPokemon"),
-  GainExperience: Symbol.for("GainExperience"),
+  GainExperiencePokemon: Symbol.for("GainExperiencePokemon"),
 };

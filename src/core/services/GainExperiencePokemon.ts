@@ -2,7 +2,7 @@ import { EnemyPokemon } from "@core/types/pokemon/PokemonData";
 import { injectable } from "inversify";
 
 @injectable()
-export class GainExperience {
+export class GainExperiencePokemon {
   constructor() {}
 
   async execute(

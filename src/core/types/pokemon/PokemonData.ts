@@ -11,6 +11,7 @@ export type EnemyPokemon = {
   currentHealth: number;
   status: string;
   isWild: boolean;
+  isFainted: boolean;
 } & Pokemon;
 
 export type OwnPokemon = {
@@ -18,6 +19,7 @@ export type OwnPokemon = {
   status: string;
   isParticipating: boolean;
   partyPosition: number;
+  isFainted: boolean;
 } & Pokemon;
 
 export type Pokemon = {

@@ -14,7 +14,6 @@ import { PokemonMapper } from "@core/mappers/pokemon/PokemonMapper";
 import { LocationJsonRepository } from "@core/repositories/location/LocationJsonRepository";
 import { LocationRepository } from "@core/repositories/location/LocationRepository";
 import { CatchPokemon } from "@core/services/CatchPokemon";
-import { GainExperience } from "@core/services/GainExperience";
 import { GeneratePokemon } from "@core/services/GeneratePokemon";
 import { GeneratePokemonStats } from "@core/services/GeneratePokemonStats";
 import { GetAvailablePokemons } from "@core/services/GetAvailablePokemon";
@@ -30,6 +29,7 @@ import { Reader } from "@shared/services/reader/Reader";
 import { PokemonJsonRepository } from "../core/repositories/pokemon/PokemonJsonRepository";
 import { PokemonRepository } from "../core/repositories/pokemon/PokemonRepository";
 import { TYPES } from "./Types";
+import { GainExperiencePokemon } from "@core/services/GainExperiencePokemon";
 
 //TODO: Refactor para modularizar la inyección de dependencias
 const container = new Container();
@@ -104,6 +104,8 @@ container
   .to(GetAvailablePokemons);
 
 container.bind<CatchPokemon>(TYPES.CatchPokemon).to(CatchPokemon);
-container.bind<GainExperience>(TYPES.GainExperience).to(GainExperience);
+container
+  .bind<GainExperiencePokemon>(TYPES.GainExperiencePokemon)
+  .to(GainExperiencePokemon);
 
 export default container;

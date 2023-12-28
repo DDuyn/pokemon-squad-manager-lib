@@ -38,6 +38,7 @@ export class GetWildPokemon {
       isWild: true,
       currentHealth: pokemon.attributes.stats.health.value,
       status: "none",
+      isFainted: false,
     };
   }
 
