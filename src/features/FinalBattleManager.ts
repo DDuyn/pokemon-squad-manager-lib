@@ -1,5 +1,5 @@
 import container from "@config/DependencyInjection";
-import { GainExperiencePokemon } from "@core/services/GainExperiencePokemon";
+import { GainExperiencePokemon } from "@core/services_old/GainExperiencePokemon";
 import { EnemyPokemon, OwnPokemon } from "@core/types/pokemon/PokemonData";
 
 export class FinalBattleManager {

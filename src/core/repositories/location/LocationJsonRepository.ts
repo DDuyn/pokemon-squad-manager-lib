@@ -1,8 +1,8 @@
 import { TYPES } from "@config/Types";
-import { Logger } from "@shared/services/logger/interfaces/Logger";
-import { JsonReader } from "@shared/services/reader/JsonReader";
 import { inject, injectable } from "inversify";
 import path from "path";
+import { Logger } from "../../../modules/shared/services/logger/interfaces/Logger";
+import { JsonReader } from "../../../modules/shared/services/reader/JsonReader";
 import { Location } from "../../types/location/Location";
 import { LocationRepository } from "./LocationRepository";
 

@@ -12,6 +12,7 @@
     "noEmit": true,
     "composite": true,
     "strict": true,
+
     "downlevelIteration": true,
     "skipLibCheck": true,
     "jsx": "preserve",
@@ -22,7 +23,7 @@
     "paths": {
       "@core/*": ["./src/core/*"],
       "@config/*": ["./src/config/*"],
-      "@shared/*": ["./src/shared/*"]
+      "@shared/*": ["./src/modules/shared/*"]
     }
   }
 }

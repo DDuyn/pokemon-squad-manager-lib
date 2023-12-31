@@ -1,6 +1,6 @@
 import container from "@config/DependencyInjection";
 import { TYPES } from "@config/Types";
-import { CatchPokemon } from "@core/services/CatchPokemon";
+import { CatchPokemon } from "@core/services_old/CatchPokemon";
 import { EnemyPokemon, OwnPokemon } from "@core/types/pokemon/PokemonData";
 
 export class CapturePokemon {
