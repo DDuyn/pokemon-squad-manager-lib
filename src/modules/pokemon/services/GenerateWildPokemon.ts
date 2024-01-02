@@ -37,7 +37,7 @@ export class GenerateWildPokemon {
 
     const pokemonData = await this.pokemonRepository.getPokemon(pokemonName);
 
-    const pokemonRequest = this.pokemonBuilder
+    const pokemon = this.pokemonBuilder
       .setPokemonData(pokemonData)
       .setId()
       .setName(pokemonName)
@@ -49,9 +49,8 @@ export class GenerateWildPokemon {
       .setDetailInfo()
       .setMoves()
       .setStats(level)
+      .setCombatStats()
       .build();
-
-    const pokemon = new Pokemon(pokemonRequest);
 
     await this.logger.info({
       message: `Pokemon ${pokemonName} generated`,

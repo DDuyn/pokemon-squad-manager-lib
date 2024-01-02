@@ -1,5 +1,5 @@
 export const POKEMON_DI_TYPES = {
-  PokemonStatsGenerator: Symbol.for("PokemonStatsGenerator"),
+  GeneratePokemonStats: Symbol.for("GeneratePokemonStats"),
   PokemonBuilder: Symbol.for("PokemonBuilder"),
   GenerateWildPokemon: Symbol.for("GenerateWildPokemon"),
   CalculateExperienceRegistryFactory: Symbol.for(
@@ -16,4 +16,5 @@ export const POKEMON_DI_TYPES = {
   CalculateMediumFastExperience: Symbol.for("CalculateMediumFastExperience"),
   CalculateMediumSlowExperience: Symbol.for("CalculateMediumSlowExperience"),
   CalculateSlowExperience: Symbol.for("CalculateSlowExperience"),
+  CapturePokemon: Symbol.for("CapturePokemon"),
 };

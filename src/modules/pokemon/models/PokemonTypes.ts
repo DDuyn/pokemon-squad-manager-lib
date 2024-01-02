@@ -333,3 +333,12 @@ export type PokemonAbilities = {
 export type PokemonAbilitiesBase = {
   availableAbilities: string[];
 };
+
+export type PokemonCombatStats = {
+  currentHealth: number;
+  status: string; //TODO: Normalizar
+  attributes: PokemonAttributes;
+  isFainted: boolean;
+  isParticipating: boolean;
+  partyPosition: number;
+};

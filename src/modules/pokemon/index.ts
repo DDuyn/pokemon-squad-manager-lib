@@ -20,24 +20,25 @@ import { CalculateSlowExperience } from "./factories/experience/services/Calcula
 import { GrowthRates, PokemonJson } from "./models/PokemonTypes";
 import { PokemonJsonRepository } from "./repositories/PokemonJsonRepository";
 import { PokemonRepository } from "./repositories/PokemonRepository";
+import { CapturePokemon } from "./services/CapturePokemon";
+import { GeneratePokemonStats } from "./services/GeneratePokemonStats";
 import { GenerateWildPokemon } from "./services/GenerateWildPokemon";
-import { PokemonStatsGenerator } from "./services/PokemonStatsGenerator";
 
 export * as PokemonTypes from "./models/PokemonTypes";
 
 const pokemonModule = new ContainerModule((bind: interfaces.Bind) => {
-  bind<GenerateWildPokemon>(GenerateWildPokemon).toSelf();
+  bind<GenerateWildPokemon>(POKEMON_DI_TYPES.GenerateWildPokemon).to(
+    GenerateWildPokemon
+  );
+  bind<CapturePokemon>(POKEMON_DI_TYPES.CapturePokemon).to(CapturePokemon);
   bind<PokemonRepository>(POKEMON_DI_TYPES.PokemonRepository).to(
     PokemonJsonRepository
   );
   bind<Cache<PokemonJson>>(SHARED_DI_TYPES.Cache).to(JsonCache);
-  bind<PokemonStatsGenerator>(POKEMON_DI_TYPES.PokemonStatsGenerator).to(
-    PokemonStatsGenerator
+  bind<GeneratePokemonStats>(POKEMON_DI_TYPES.GeneratePokemonStats).to(
+    GeneratePokemonStats
   );
   bind<PokemonBuilder>(POKEMON_DI_TYPES.PokemonBuilder).to(PokemonBuilder);
-  bind<GenerateWildPokemon>(POKEMON_DI_TYPES.GenerateWildPokemon).to(
-    GenerateWildPokemon
-  );
 
   bind<CalculateExperienceAttribute>(
     POKEMON_DI_TYPES.CalculateErraticExperience

@@ -13,7 +13,7 @@ import {
   StatKeyWithoutHealth,
 } from "../models/PokemonTypes";
 
-export type PokemonStatsGeneratorRequest = {
+export type GeneratePokemonStatsRequest = {
   baseStats: PokemonStatsBase;
   growthRate: GrowthRates;
   nature: Natures;
@@ -21,13 +21,13 @@ export type PokemonStatsGeneratorRequest = {
 };
 
 @injectable()
-export class PokemonStatsGenerator {
+export class GeneratePokemonStats {
   constructor(
     @inject(POKEMON_DI_TYPES.CalculateExperienceFactory)
     private readonly calculateExperienceFactory: CalculateExperienceFactory
   ) {}
 
-  execute(request: PokemonStatsGeneratorRequest): PokemonStats {
+  execute(request: GeneratePokemonStatsRequest): PokemonStats {
     const { baseStats, growthRate, nature, level } = request;
 
     const nextLevelExperience = this.calculateExperience(level + 1, growthRate);

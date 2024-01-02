@@ -2,23 +2,23 @@ import { randomUUID } from "crypto";
 import { inject, injectable } from "inversify";
 import { getRandomToList } from "../../shared/services/GetRandomToList";
 import { POKEMON_DI_TYPES } from "../config/DependencyInjection";
-import { PokemonRequest } from "../models/Pokemon";
+import { Pokemon } from "../models/Pokemon";
 import {
   Gender,
   GrowthRates,
   Natures,
   PokemonJson,
 } from "../models/PokemonTypes";
-import { PokemonStatsGenerator } from "../services/PokemonStatsGenerator";
+import { GeneratePokemonStats } from "../services/GeneratePokemonStats";
 
 @injectable()
 export class PokemonBuilder {
-  private pokemonRequest: PokemonRequest = {} as PokemonRequest;
+  private pokemon: Pokemon = {} as Pokemon;
   private pokemonData: PokemonJson = {} as PokemonJson;
 
   constructor(
-    @inject(POKEMON_DI_TYPES.PokemonStatsGenerator)
-    private readonly pokemonStatsGenerator: PokemonStatsGenerator
+    @inject(POKEMON_DI_TYPES.GeneratePokemonStats)
+    private readonly generatePokemonStats: GeneratePokemonStats
   ) {}
 
   setPokemonData(pokemonData: PokemonJson): PokemonBuilder {
@@ -27,28 +27,28 @@ export class PokemonBuilder {
   }
 
   setName(name: string): PokemonBuilder {
-    this.pokemonRequest.name = name;
+    this.pokemon.name = name;
     return this;
   }
 
   setIsWild(): PokemonBuilder {
-    this.pokemonRequest.isWild = true;
+    this.pokemon.isWild = true;
     return this;
   }
 
   setTypes(): PokemonBuilder {
-    this.pokemonRequest.types = this.pokemonData.types;
+    this.pokemon.types = this.pokemonData.types;
     return this;
   }
 
   setId(): PokemonBuilder {
-    this.pokemonRequest.id = randomUUID();
+    this.pokemon.id = randomUUID();
     return this;
   }
 
   setGender(): PokemonBuilder {
     console.log(this.pokemonData);
-    this.pokemonRequest.gender =
+    this.pokemon.gender =
       Math.random() * 100 < this.pokemonData.genderRatio
         ? Gender.Male
         : Gender.Female;
@@ -57,7 +57,7 @@ export class PokemonBuilder {
   }
 
   setDetailInfo(): PokemonBuilder {
-    this.pokemonRequest.detailInfo = {
+    this.pokemon.detailInfo = {
       catchRate: this.pokemonData.catchRate,
       eggCycles: this.pokemonData.eggCycles,
       baseExperience: this.pokemonData.baseExp,
@@ -69,7 +69,7 @@ export class PokemonBuilder {
   }
 
   setAbility(): PokemonBuilder {
-    this.pokemonRequest.ability = {
+    this.pokemon.ability = {
       selectedAbility: getRandomToList(this.pokemonData.abilities),
       availableAbilities: this.pokemonData.abilities,
     };
@@ -78,24 +78,24 @@ export class PokemonBuilder {
   }
 
   setMoves(): PokemonBuilder {
-    this.pokemonRequest.moves = { learnableMoves: [], selectedMoves: [] };
+    this.pokemon.moves = { learnableMoves: [], selectedMoves: [] };
     return this;
   }
 
   setNature(): PokemonBuilder {
-    this.pokemonRequest.nature = getRandomToList(Object.values(Natures));
+    this.pokemon.nature = getRandomToList(Object.values(Natures));
     return this;
   }
 
   setStats(level: number): PokemonBuilder {
-    const stats = this.pokemonStatsGenerator.execute({
+    const stats = this.generatePokemonStats.execute({
       baseStats: this.pokemonData.baseStats,
-      growthRate: this.pokemonRequest.detailInfo.growthRate,
+      growthRate: this.pokemon.detailInfo.growthRate,
       level,
-      nature: this.pokemonRequest.nature,
+      nature: this.pokemon.nature,
     });
 
-    this.pokemonRequest.stats = {
+    this.pokemon.stats = {
       base: this.pokemonData.baseStats,
       current: stats,
     };
@@ -103,7 +103,20 @@ export class PokemonBuilder {
     return this;
   }
 
-  build(): PokemonRequest {
-    return this.pokemonRequest;
+  setCombatStats(): PokemonBuilder {
+    this.pokemon.combatStats = {
+      currentHealth: this.pokemon.stats.current.attributes.health.value,
+      status: "Normal",
+      attributes: this.pokemon.stats.current.attributes,
+      isParticipating: false,
+      partyPosition: 0,
+      isFainted: false,
+    };
+
+    return this;
+  }
+
+  build(): Pokemon {
+    return this.pokemon;
   }
 }
