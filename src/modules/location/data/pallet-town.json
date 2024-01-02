@@ -1,7 +1,9 @@
 {
+  "id": "pallet-town",
   "name": "Pallet Town",
   "routes": [
     {
+      "id": "route-1",
       "name": "Route 1",
       "level": {
         "min": 2,
@@ -29,6 +31,7 @@
       }
     },
     {
+      "id": "route-2",
       "name": "Route 2",
       "level": {
         "min": 3,

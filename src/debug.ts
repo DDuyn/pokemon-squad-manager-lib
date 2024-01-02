@@ -7,7 +7,7 @@ import { GenerateWildPokemon } from "./modules/pokemon/services/GenerateWildPoke
 const a = container.get<GenerateWildPokemon>(
   POKEMON_DI_TYPES.GenerateWildPokemon
 );
-const pok = await a.execute("bulbasaur");
+const pok = await a.execute("pallet-town", "route-1");
 console.log(pok);
 
 //console.log(pokemonEnemy);

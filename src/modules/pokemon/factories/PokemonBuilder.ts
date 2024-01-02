@@ -36,6 +36,11 @@ export class PokemonBuilder {
     return this;
   }
 
+  setTypes(): PokemonBuilder {
+    this.pokemonRequest.types = this.pokemonData.types;
+    return this;
+  }
+
   setId(): PokemonBuilder {
     this.pokemonRequest.id = randomUUID();
     return this;

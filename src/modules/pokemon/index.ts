@@ -1,6 +1,6 @@
 import "reflect-metadata";
 
-import { TYPES } from "@config/Types";
+import { SHARED_DI_TYPES } from "@shared/config/DependencyInjection";
 import { Cache } from "@shared/services/cache/Cache";
 import { JsonCache } from "@shared/services/cache/JsonCache";
 import { ContainerModule, interfaces } from "inversify";
@@ -30,7 +30,7 @@ const pokemonModule = new ContainerModule((bind: interfaces.Bind) => {
   bind<PokemonRepository>(POKEMON_DI_TYPES.PokemonRepository).to(
     PokemonJsonRepository
   );
-  bind<Cache<PokemonJson>>(TYPES.Cache).to(JsonCache);
+  bind<Cache<PokemonJson>>(SHARED_DI_TYPES.Cache).to(JsonCache);
   bind<PokemonStatsGenerator>(POKEMON_DI_TYPES.PokemonStatsGenerator).to(
     PokemonStatsGenerator
   );

@@ -1,5 +1,4 @@
-import { TYPES } from "@config/Types";
-
+import { SHARED_DI_TYPES } from "@shared/config/DependencyInjection";
 import { inject, injectable } from "inversify";
 import path from "path";
 import { Cache } from "../../shared/services/cache/Cache";
@@ -16,9 +15,9 @@ export class PokemonJsonRepository implements PokemonRepository {
   );
 
   constructor(
-    @inject(TYPES.Logger) private readonly logger: Logger,
-    @inject(TYPES.Reader) private readonly jsonReader: JsonReader,
-    @inject(TYPES.Cache) private readonly cache: Cache<PokemonJson>
+    @inject(SHARED_DI_TYPES.Logger) private readonly logger: Logger,
+    @inject(SHARED_DI_TYPES.Reader) private readonly jsonReader: JsonReader,
+    @inject(SHARED_DI_TYPES.Cache) private readonly cache: Cache<PokemonJson>
   ) {}
 
   async getPokemon(name: string): Promise<PokemonJson> {

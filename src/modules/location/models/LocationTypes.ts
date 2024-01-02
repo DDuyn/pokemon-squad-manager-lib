@@ -1,9 +1,11 @@
-export type Location = {
+export type LocationJson = {
+  id: string;
   name: string;
   routes: Route[];
 };
 
 export type Route = {
+  id: string;
   name: string;
   level: LevelRange;
   cycle: Cycle;

@@ -1,7 +1,7 @@
-import { TYPES } from "@config/Types";
 import { inject, injectable } from "inversify";
 import { Logger } from "../../../../shared/services/logger/interfaces/Logger";
 import { CalculateExperienceAttribute } from "../CalculateExperienceAttribute";
+import { SHARED_DI_TYPES } from "@shared/config/DependencyInjection";
 
 @injectable()
 export class CalculateErraticExperience
@@ -14,7 +14,9 @@ export class CalculateErraticExperience
     [(level: number) => level > 98, this.greaterThanNinetyNine],
   ]);
 
-  constructor(@inject(TYPES.Logger) private readonly logger: Logger) {}
+  constructor(
+    @inject(SHARED_DI_TYPES.Logger) private readonly logger: Logger
+  ) {}
 
   execute(level: number): number {
     for (const [condition, calculation] of this.levelRanges) {
