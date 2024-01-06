@@ -36,21 +36,20 @@ export class GenerateWildPokemon {
     const level = getRandomNumber(levelRange.min, levelRange.max);
 
     const pokemonData = await this.pokemonRepository.getPokemon(pokemonName);
-
-    const pokemon = this.pokemonBuilder
-      .setPokemonData(pokemonData)
-      .setId()
-      .setName(pokemonName)
-      .setIsWild()
-      .setTypes()
-      .setGender()
-      .setAbility()
-      .setNature()
-      .setDetailInfo()
-      .setMoves()
-      .setStats(level)
-      .setCombatStats()
-      .build();
+    const pokemon = await (
+      await this.pokemonBuilder
+        .setPokemonData(pokemonData)
+        .setId()
+        .setName(pokemonName)
+        .setIsWild()
+        .setTypes()
+        .setGender()
+        .setAbility()
+        .setNature()
+        .setDetailInfo()
+        .setMoves()
+        .setStats(level)
+    ).build();
 
     await this.logger.info({
       message: `Pokemon ${pokemonName} generated`,

@@ -1,53 +1,49 @@
 import { inject, injectable } from "inversify";
-import { getRandomNumber } from "../../shared/services/GetRandomNumber";
 import { POKEMON_DI_TYPES } from "../config/DependencyInjection";
-import { CalculateExperienceFactory } from "../factories/experience/CalculateExperienceFactory";
+import { Pokemon } from "../models/Pokemon";
 import {
-  GrowthRates,
-  NatureEffect,
   Natures,
-  PokemonAttribute,
+  PokemonAttributes,
   PokemonStats,
   PokemonStatsBase,
   StatKey,
-  StatKeyWithoutHealth,
 } from "../models/PokemonTypes";
+import { CalculateAttributes } from "./CalculateAttributes";
+import { CalculateExperience } from "./CalculateExperience";
 
 export type GeneratePokemonStatsRequest = {
-  baseStats: PokemonStatsBase;
-  growthRate: GrowthRates;
-  nature: Natures;
+  baseAttributes: PokemonStatsBase;
+  pokemon: Pokemon;
   level: number;
 };
 
 @injectable()
 export class GeneratePokemonStats {
   constructor(
-    @inject(POKEMON_DI_TYPES.CalculateExperienceFactory)
-    private readonly calculateExperienceFactory: CalculateExperienceFactory
+    @inject(POKEMON_DI_TYPES.CalculateExperience)
+    private readonly calculateExperience: CalculateExperience,
+    @inject(POKEMON_DI_TYPES.CalculateAttributes)
+    private readonly calculateAttributes: CalculateAttributes
   ) {}
 
-  execute(request: GeneratePokemonStatsRequest): PokemonStats {
-    const { baseStats, growthRate, nature, level } = request;
+  async execute(request: GeneratePokemonStatsRequest): Promise<PokemonStats> {
+    const { baseAttributes, pokemon, level } = request;
+    const { growthRate } = pokemon.detailInfo;
+    const { nature } = pokemon;
 
-    const nextLevelExperience = this.calculateExperience(level + 1, growthRate);
-    const currentExperience =
-      level === 1 ? 0 : this.calculateExperience(level, growthRate);
+    const nextLevelExperience =
+      await this.calculateExperience.nextLevelExperience(level, growthRate);
 
-    const attributes: Record<StatKey, PokemonAttribute> = {} as Record<
-      StatKey,
-      PokemonAttribute
-    >;
+    const currentExperience = await this.calculateExperience.currentExperience(
+      level,
+      growthRate
+    );
 
-    for (const statKey in StatKey) {
-      if (Object.prototype.hasOwnProperty.call(StatKey, statKey)) {
-        const key = statKey as StatKey;
-        attributes[key] = this.generateStat(
-          { value: baseStats[key], nature: nature, level },
-          key
-        );
-      }
-    }
+    const attributes = await this.generateAttributes(
+      baseAttributes,
+      nature,
+      level
+    );
 
     return {
       attributes,
@@ -57,73 +53,37 @@ export class GeneratePokemonStats {
     };
   }
 
-  private calculateExperience(level: number, growthRate: GrowthRates): number {
-    return this.calculateExperienceFactory.execute(level, growthRate);
-  }
+  private async generateAttributes(
+    baseAttributes: PokemonStatsBase,
+    nature: Natures,
+    level: number
+  ): Promise<PokemonAttributes> {
+    const attributes: PokemonAttributes = this.initializeAttributes();
+    await this.calculateAttributes.generateIVandNV(attributes);
 
-  private generateStat(
-    data: { value: number; nature: Natures; level: number },
-    statKey: StatKey
-  ): PokemonAttribute {
-    const { value, nature, level } = data;
-
-    const stat: PokemonAttribute = {
-      value,
-      iv: getRandomNumber(0, 31),
-      ev: 0,
-      nv: getRandomNumber(1, 10),
-    };
-
-    stat.value =
-      statKey === StatKey.health
-        ? this.calculateHealthStat({ stat, level })
-        : this.calculateStat({ stat, nature, level }, statKey);
-
-    return stat;
-  }
-
-  private calculateStat(
-    data: {
-      stat: PokemonAttribute;
-      nature: Natures;
-      level: number;
-    },
-    statKey: StatKey
-  ): number {
-    const { stat, nature, level } = data;
-    const base = this.calculateBaseStat(stat, level);
-
-    const natureEffect = this.getEffectNature(
+    return this.calculateAttributes.calculateAttributes(
+      baseAttributes,
+      attributes,
       nature,
-      statKey as StatKeyWithoutHealth
+      level
     );
-    const naturalValue = this.calculateNaturalValue(stat.nv, level);
-    return Math.floor((base + 5) * natureEffect + naturalValue);
   }
 
-  private calculateHealthStat(data: {
-    stat: PokemonAttribute;
-    level: number;
-  }): number {
-    const { stat, level } = data;
-    const base = this.calculateBaseStat(stat, level);
-    const naturalValue = this.calculateNaturalValue(stat.nv, level);
-    return Math.floor(base + level + 10 + naturalValue);
-  }
+  private initializeAttributes(): PokemonAttributes {
+    const attributes: PokemonAttributes = {} as PokemonAttributes;
 
-  private calculateBaseStat(baseStat: PokemonAttribute, level: number): number {
-    const { value, iv, ev } = baseStat;
-    const base = ((2 * value + iv + ev / 4) * level) / 100;
+    for (const key in StatKey) {
+      if (Object.prototype.hasOwnProperty.call(StatKey, key)) {
+        const attributeKey = key as keyof PokemonAttributes;
+        attributes[attributeKey] = {
+          value: 0,
+          ev: 0,
+          iv: 0,
+          nv: 0,
+        };
+      }
+    }
 
-    return Math.floor(base);
-  }
-
-  private calculateNaturalValue(nv: number, level: number): number {
-    return (level * nv) / 100;
-  }
-
-  private getEffectNature(nature: Natures, stat: StatKeyWithoutHealth): number {
-    const effect = NatureEffect[nature];
-    return effect[stat];
+    return attributes;
   }
 }

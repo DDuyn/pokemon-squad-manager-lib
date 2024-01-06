@@ -110,15 +110,13 @@ export enum Natures {
   Quirky = "Quirky",
 }
 
-export type NatureModifier = Omit<
-  {
-    [key in StatKey]: number;
-  },
-  StatKey.health
->;
+export type NatureModifier = {
+  [key in StatKey]: number;
+};
 
 export const NatureEffect: Record<Natures, NatureModifier> = {
   Hardy: {
+    health: 1,
     attack: 1,
     defense: 1,
     specialAttack: 1,
@@ -126,6 +124,7 @@ export const NatureEffect: Record<Natures, NatureModifier> = {
     speed: 1,
   },
   Lonely: {
+    health: 1,
     attack: 1.1,
     defense: 0.9,
     specialAttack: 1,
@@ -133,6 +132,7 @@ export const NatureEffect: Record<Natures, NatureModifier> = {
     speed: 1,
   },
   Brave: {
+    health: 1,
     attack: 1.1,
     defense: 1,
     specialAttack: 1,
@@ -140,6 +140,7 @@ export const NatureEffect: Record<Natures, NatureModifier> = {
     speed: 0.9,
   },
   Adamant: {
+    health: 1,
     attack: 1.1,
     defense: 1,
     specialAttack: 0.9,
@@ -147,6 +148,7 @@ export const NatureEffect: Record<Natures, NatureModifier> = {
     speed: 1,
   },
   Naughty: {
+    health: 1,
     attack: 1.1,
     defense: 1,
     specialAttack: 1,
@@ -154,6 +156,7 @@ export const NatureEffect: Record<Natures, NatureModifier> = {
     speed: 1,
   },
   Bold: {
+    health: 1,
     attack: 0.9,
     defense: 1.1,
     specialAttack: 1,
@@ -161,6 +164,7 @@ export const NatureEffect: Record<Natures, NatureModifier> = {
     speed: 1,
   },
   Docile: {
+    health: 1,
     attack: 1,
     defense: 1,
     specialAttack: 1,
@@ -168,6 +172,7 @@ export const NatureEffect: Record<Natures, NatureModifier> = {
     speed: 1,
   },
   Relaxed: {
+    health: 1,
     attack: 1,
     defense: 1.1,
     specialAttack: 1,
@@ -175,6 +180,7 @@ export const NatureEffect: Record<Natures, NatureModifier> = {
     speed: 0.9,
   },
   Impish: {
+    health: 1,
     attack: 1,
     defense: 1.1,
     specialAttack: 0.9,
@@ -182,6 +188,7 @@ export const NatureEffect: Record<Natures, NatureModifier> = {
     speed: 1,
   },
   Lax: {
+    health: 1,
     attack: 1,
     defense: 1.1,
     specialAttack: 1,
@@ -189,6 +196,7 @@ export const NatureEffect: Record<Natures, NatureModifier> = {
     speed: 1,
   },
   Timid: {
+    health: 1,
     attack: 0.9,
     defense: 1,
     specialAttack: 1,
@@ -196,6 +204,7 @@ export const NatureEffect: Record<Natures, NatureModifier> = {
     speed: 1.1,
   },
   Hasty: {
+    health: 1,
     attack: 1,
     defense: 0.9,
     specialAttack: 1,
@@ -203,6 +212,7 @@ export const NatureEffect: Record<Natures, NatureModifier> = {
     speed: 1.1,
   },
   Serious: {
+    health: 1,
     attack: 1,
     defense: 1,
     specialAttack: 1,
@@ -210,6 +220,7 @@ export const NatureEffect: Record<Natures, NatureModifier> = {
     speed: 1,
   },
   Jolly: {
+    health: 1,
     attack: 1,
     defense: 1,
     specialAttack: 0.9,
@@ -217,6 +228,7 @@ export const NatureEffect: Record<Natures, NatureModifier> = {
     speed: 1.1,
   },
   Naive: {
+    health: 1,
     attack: 1,
     defense: 1,
     specialAttack: 1,
@@ -224,6 +236,7 @@ export const NatureEffect: Record<Natures, NatureModifier> = {
     speed: 1.1,
   },
   Modest: {
+    health: 1,
     attack: 0.9,
     defense: 1,
     specialAttack: 1.1,
@@ -231,6 +244,7 @@ export const NatureEffect: Record<Natures, NatureModifier> = {
     speed: 1,
   },
   Mild: {
+    health: 1,
     attack: 1,
     defense: 0.9,
     specialAttack: 1.1,
@@ -238,6 +252,7 @@ export const NatureEffect: Record<Natures, NatureModifier> = {
     speed: 1,
   },
   Quiet: {
+    health: 1,
     attack: 1,
     defense: 1,
     specialAttack: 1.1,
@@ -245,6 +260,7 @@ export const NatureEffect: Record<Natures, NatureModifier> = {
     speed: 0.9,
   },
   Bashful: {
+    health: 1,
     attack: 1,
     defense: 1,
     specialAttack: 1,
@@ -252,6 +268,7 @@ export const NatureEffect: Record<Natures, NatureModifier> = {
     speed: 1,
   },
   Rash: {
+    health: 1,
     attack: 1,
     defense: 1,
     specialAttack: 1.1,
@@ -259,6 +276,7 @@ export const NatureEffect: Record<Natures, NatureModifier> = {
     speed: 1,
   },
   Calm: {
+    health: 1,
     attack: 0.9,
     defense: 1,
     specialAttack: 1,
@@ -266,6 +284,7 @@ export const NatureEffect: Record<Natures, NatureModifier> = {
     speed: 1,
   },
   Gentle: {
+    health: 1,
     attack: 1,
     defense: 0.9,
     specialAttack: 1,
@@ -273,6 +292,7 @@ export const NatureEffect: Record<Natures, NatureModifier> = {
     speed: 1,
   },
   Sassy: {
+    health: 1,
     attack: 1,
     defense: 1,
     specialAttack: 1,
@@ -280,6 +300,7 @@ export const NatureEffect: Record<Natures, NatureModifier> = {
     speed: 0.9,
   },
   Careful: {
+    health: 1,
     attack: 1,
     defense: 1,
     specialAttack: 0.9,
@@ -287,6 +308,7 @@ export const NatureEffect: Record<Natures, NatureModifier> = {
     speed: 1,
   },
   Quirky: {
+    health: 1,
     attack: 1,
     defense: 1,
     specialAttack: 1,

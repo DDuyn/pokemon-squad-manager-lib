@@ -47,7 +47,6 @@ export class PokemonBuilder {
   }
 
   setGender(): PokemonBuilder {
-    console.log(this.pokemonData);
     this.pokemon.gender =
       Math.random() * 100 < this.pokemonData.genderRatio
         ? Gender.Male
@@ -87,12 +86,11 @@ export class PokemonBuilder {
     return this;
   }
 
-  setStats(level: number): PokemonBuilder {
-    const stats = this.generatePokemonStats.execute({
-      baseStats: this.pokemonData.baseStats,
-      growthRate: this.pokemon.detailInfo.growthRate,
+  async setStats(level: number): Promise<PokemonBuilder> {
+    const stats = await this.generatePokemonStats.execute({
+      baseAttributes: this.pokemonData.baseStats,
+      pokemon: this.pokemon,
       level,
-      nature: this.pokemon.nature,
     });
 
     this.pokemon.stats = {
@@ -100,10 +98,6 @@ export class PokemonBuilder {
       current: stats,
     };
 
-    return this;
-  }
-
-  setCombatStats(): PokemonBuilder {
     this.pokemon.combatStats = {
       currentHealth: this.pokemon.stats.current.attributes.health.value,
       status: "Normal",
@@ -117,6 +111,6 @@ export class PokemonBuilder {
   }
 
   build(): Pokemon {
-    return this.pokemon;
+    return structuredClone(this.pokemon);
   }
 }

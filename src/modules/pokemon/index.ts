@@ -17,12 +17,17 @@ import { CalculateFluctuatingExperience } from "./factories/experience/services/
 import { CalculateMediumFastExperience } from "./factories/experience/services/CalculateMediumFastExperience";
 import { CalculateMediumSlowExperience } from "./factories/experience/services/CalculateMediumSlowExperience";
 import { CalculateSlowExperience } from "./factories/experience/services/CalculateSlowExperience";
+import { CapturePokemon } from "./features/CapturePokemon";
+import { GainExperiencePokemon } from "./features/GainExperiencePokemon";
+import { GenerateWildPokemon } from "./features/GenerateWildPokemon";
 import { GrowthRates, PokemonJson } from "./models/PokemonTypes";
 import { PokemonJsonRepository } from "./repositories/PokemonJsonRepository";
 import { PokemonRepository } from "./repositories/PokemonRepository";
-import { CapturePokemon } from "./services/CapturePokemon";
+import { CalculateAttributes } from "./services/CalculateAttributes";
+import { CalculateExperience } from "./services/CalculateExperience";
 import { GeneratePokemonStats } from "./services/GeneratePokemonStats";
-import { GenerateWildPokemon } from "./services/GenerateWildPokemon";
+import { LevelUpPokemon } from "./services/LevelUpPokemon";
+import { UpgradePokemonStats } from "./services/UpgradePokemonStats";
 
 export * as PokemonTypes from "./models/PokemonTypes";
 
@@ -37,6 +42,19 @@ const pokemonModule = new ContainerModule((bind: interfaces.Bind) => {
   bind<Cache<PokemonJson>>(SHARED_DI_TYPES.Cache).to(JsonCache);
   bind<GeneratePokemonStats>(POKEMON_DI_TYPES.GeneratePokemonStats).to(
     GeneratePokemonStats
+  );
+  bind<CalculateExperience>(POKEMON_DI_TYPES.CalculateExperience).to(
+    CalculateExperience
+  );
+  bind<CalculateAttributes>(POKEMON_DI_TYPES.CalculateAttributes).to(
+    CalculateAttributes
+  );
+  bind<LevelUpPokemon>(POKEMON_DI_TYPES.LevelUpPokemon).to(LevelUpPokemon);
+  bind<UpgradePokemonStats>(POKEMON_DI_TYPES.UpgradePokemonStats).to(
+    UpgradePokemonStats
+  );
+  bind<GainExperiencePokemon>(POKEMON_DI_TYPES.GainExperiencePokemon).to(
+    GainExperiencePokemon
   );
   bind<PokemonBuilder>(POKEMON_DI_TYPES.PokemonBuilder).to(PokemonBuilder);
 
